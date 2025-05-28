@@ -45,8 +45,10 @@
           mountpoint = "none";
           xattr = "sa";
         };
-        options.ashift = "12";
-
+        options = {
+          ashift = "12";
+          autotrim = "on";
+        };
         datasets = {
           "local" = {
             type = "zfs_fs";
