@@ -8,76 +8,75 @@
   disko.devices = {
     disk = {
       main = {
-        device = "/dev/sdb"; # FIXME: remove
         type = "disk";
+        device = "/dev/sdb"; # FIXME: remove
         content = {
           type = "gpt";
           partitions = {
             ESP = {
-              size = "1G";
+              priority = 1;
+              name = "ESP";
+              start = "1M";
+              end = "512M";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "umask=0077" ];
+                mountOptions = ["umask=0077"];
               };
             };
-            zfs = {
+            root = {
               size = "100%";
               content = {
-                type = "zfs";
-                pool = "zportablenix";
+                type = "btrfs";
+                extraArgs = ["-f"]; # Override existing partition
+                # Subvolumes must set a mountpoint in order to be mounted,
+                # unless their parent is mounted
+                subvolumes = {
+                  # Subvolume name is different from mountpoint
+                  "/root" = {
+                    mountpoint = "/";
+                    mountOptions = ["subvol=root" "compress=zstd" "noatime"];
+                  };
+                  "/home" = {
+                    mountOptions = ["subvol=home" "compress=zstd" "noatime"];
+                    mountpoint = "/home";
+                  };
+                  "/home/user" = {};
+                  "/nix" = {
+                    mountOptions = [
+                      "subvol=nix"
+                      "compress=zstd"
+                      "noatime"
+                    ];
+                    mountpoint = "/nix";
+                  };
+                  "/persist" = {
+                    mountpoint = "/persist";
+                    mountOptions = ["subvol=persist" "compress=zstd" "noatime"];
+                  };
+                  "/log" = {
+                    mountpoint = "/var/log";
+                    mountOptions = ["subvol=log" "compress=zstd" "noatime"];
+                  };
+                  "/lib" = {
+                    mountpoint = "/var/lib";
+                    mountOptions = ["subvol=lib" "compress=zstd" "noatime"];
+                  };
+                  # This subvolume will be created but not mounted
+                  "/test" = {};
+                };
+
               };
             };
-          };
-        };
-      };
-    };
-    zpool = {
-      zportablenix = {
-        type = "zpool";
-        rootFsOptions = {
-          # https://wiki.archlinux.org/title/Install_Arch_Linux_on_ZFS
-          acltype = "posixacl";
-          atime = "off";
-          compression = "zstd";
-          mountpoint = "none";
-          xattr = "sa";
-        };
-        options = {
-          ashift = "12";
-          autotrim = "on";
-        };
-        datasets = {
-          "local" = {
-            type = "zfs_fs";
-            options.mountpoint = "none";
-          };
-          "local/home" = {
-            type = "zfs_fs";
-            mountpoint = "/home";
-            # Used by services.zfs.autoSnapshot options.
-            options."com.sun:auto-snapshot" = "true";
-          };
-          "local/nix" = {
-            type = "zfs_fs";
-            mountpoint = "/nix";
-            options."com.sun:auto-snapshot" = "false";
-          };
-          "local/persist" = {
-            type = "zfs_fs";
-            mountpoint = "/persist";
-            options."com.sun:auto-snapshot" = "false";
-          };
-          "local/root" = {
-            type = "zfs_fs";
-            mountpoint = "/";
-            options."com.sun:auto-snapshot" = "false";
-            postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zportablenix/local/root@blank$' || zfs snapshot zportablenix/local/root@blank";
           };
         };
       };
     };
   };
+  fileSystems."/persist".neededForBoot = true;
+  fileSystems."/var/log".neededForBoot = true;
+  fileSystems."/var/lib".neededForBoot = true;
 }
+
