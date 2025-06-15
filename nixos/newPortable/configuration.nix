@@ -20,6 +20,8 @@
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
   # TODO: define hard disk in one spot, also UUID or similar?
 
+  boot.loader.systemd-boot.enable = true; # UEFI
+
   networking = {
     hostName = "newPortable";
     useDHCP = false;
