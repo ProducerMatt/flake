@@ -17,7 +17,7 @@
     nix-detsys.url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
-    # impermanence.url = "github:nix-community/impermanence";
+    impermanence.url = "github:nix-community/impermanence";
   };
 
   outputs = { self, nixpkgs-stable, ... }@inputs:
@@ -46,7 +46,8 @@
           inputs.determinate.nixosModules.default
           inputs.nix-index-database.nixosModules.nix-index
           inputs.disko.nixosModules.disko
-          # inputs.impermanence.nixosModules.impermanence
+          inputs.impermanence.nixosModules.impermanence
+          ./impermanence.nix
           ./nixos/newPortable/configuration.nix
         ];
       };
