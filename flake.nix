@@ -16,7 +16,7 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs-stable, ... }@inputs:
     let
       flakeInfo = {
         inherit (self) lastModified lastModifiedDate narHash;
@@ -25,11 +25,21 @@
         revCount = self.revCount or "dirty";
         rootDir = builtins.path {path = "./."; name= "flakeRootDir";};
       };
+      flakeInfoModule = ({ config, ... }: {
+        users.motd = ''
+          === ${config.networking.hostName} ===
+          Flake revision #${builtins.toString flakeInfo.revCount} from ${flakeInfo.lastModifiedDate}
+          Flake commit ${flakeInfo.shortRev}
+        '';
+        system.configurationRevision = flakeInfo.rev;
+      });
     in {
-      nixosConfigurations.newPortable = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.newPortable = nixpkgs-stable.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          inputs.nix-detsys.overlays.default
+          flakeInfoModule
+          inputs.determinate.nixosModules.default
+          inputs.nix-index-database.nixosModules.nix-index
           ./nixos/newPortable/configuration.nix
         ];
       };
