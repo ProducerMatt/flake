@@ -1,5 +1,9 @@
 {
   inputs = {
+    systems.url = "github:nix-systems/x86_64-linux";
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
+
     nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*";
     nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
     home-manager-stable.url = "https://flakehub.com/f/nix-community/home-manager/0.2505";
@@ -18,9 +22,15 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
     impermanence.url = "github:nix-community/impermanence";
+
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
+    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    emacs-overlay.inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+
+    templates.url = "github:ProducerMatt/nix-templates";
   };
 
-  outputs = { self, nixpkgs-stable, ... }@inputs:
+  outputs = { self, nixpkgs-stable, flake-parts, ... }@inputs:
     let
       flakeInfo = {
         inherit (self) lastModified lastModifiedDate narHash;
@@ -38,18 +48,43 @@
         system.configurationRevision = flakeInfo.rev;
       });
 
-    in {
-      nixosConfigurations.newPortable = nixpkgs-stable.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          flakeInfoModule
-          inputs.determinate.nixosModules.default
-          inputs.nix-index-database.nixosModules.nix-index
-          inputs.disko.nixosModules.disko
-          inputs.impermanence.nixosModules.impermanence
-          ./impermanence.nix
-          ./nixos/newPortable/configuration.nix
+    defaultPkgs = system:
+      import nixpkgs-stable (import ./pkg-options.nix {inherit system inputs;});
+
+    in
+    flake-parts.lib.mkFlake {
+      inherit inputs;
+    } ({withSystem, inputs, ...}: {
+      debug = true; # DEBUG
+      systems = (import inputs.systems);
+      flake = {
+        imports = [
+          # really only useful when merging homeConfigurations
+          inputs.home-manager-stable.flakeModules.home-manager
         ];
+
+        inherit flakeInfo; # make available on self
+
+        nixosConfigurations.newPortable = let system = "x86_64-linux"; in nixpkgs-stable.lib.nixosSystem {
+          system = system;
+          modules = [
+            flakeInfoModule
+            {nixpkgs = (import ./pkg-options.nix {inherit system inputs;});}
+            inputs.home-manager-stable.nixosModules.home-manager
+            inputs.determinate.nixosModules.default
+            inputs.disko.nixosModules.disko
+            inputs.impermanence.nixosModules.impermanence
+            ./impermanence.nix
+            ./nixos/newPortable/configuration.nix
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.matt = import ./hm/matt.nix;
+            }
+          ];
+        };
+
+        homeConfigurations.matt = ./hm/matt.nix;
       };
-    };
+    });
 }
