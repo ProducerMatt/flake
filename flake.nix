@@ -58,11 +58,6 @@
       debug = true; # DEBUG
       systems = (import inputs.systems);
       flake = {
-        imports = [
-          # really only useful when merging homeConfigurations
-          inputs.home-manager-stable.flakeModules.home-manager
-        ];
-
         inherit flakeInfo; # make available on self
 
         nixosConfigurations.newPortable = let system = "x86_64-linux"; in nixpkgs-stable.lib.nixosSystem {
