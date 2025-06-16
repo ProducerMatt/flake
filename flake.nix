@@ -79,7 +79,7 @@
           ];
         };
 
-        homeConfigurations.matt = ./hm/matt.nix;
+        homeConfigurations.matt = inputs.home-manager-stable.lib.homeManagerConfiguration (import ./hm/matt.nix);
       };
     });
 }
