@@ -54,7 +54,7 @@
     in
     flake-parts.lib.mkFlake {
       inherit inputs;
-    } ({withSystem, inputs, ...}: {
+    } ({withSystem, inputs, ...}@ctx: {
       debug = true; # DEBUG
       systems = (import inputs.systems);
       flake = {
@@ -62,7 +62,7 @@
 
         nixosConfigurations.newPortable = let
           system = "x86_64-linux";
-          specialArgs = {inherit inputs;}; # Fixes infinite recursion error
+          specialArgs = ctx; # Fixes infinite recursion error
         in nixpkgs-stable.lib.nixosSystem {
           inherit system specialArgs;
           modules = [
