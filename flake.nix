@@ -60,9 +60,11 @@
       flake = {
         inherit flakeInfo; # make available on self
 
-        nixosConfigurations.newPortable = let system = "x86_64-linux"; in nixpkgs-stable.lib.nixosSystem {
+        nixosConfigurations.newPortable = let
+          system = "x86_64-linux";
           specialArgs = {inherit inputs;}; # Fixes infinite recursion error
-          system = system;
+        in nixpkgs-stable.lib.nixosSystem {
+          inherit system specialArgs;
           modules = [
             flakeInfoModule
             {nixpkgs = (import ./pkg-options.nix {inherit system inputs;});}
@@ -75,6 +77,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = specialArgs; # Fixes infinite recursion error
               home-manager.users.matt = ./hm/matt.nix;
             }
           ];
