@@ -47,16 +47,26 @@
         '';
         system.configurationRevision = flakeInfo.rev;
       });
-
-    defaultPkgs = system:
-      import nixpkgs-stable (import ./pkg-options.nix {inherit system inputs;});
-
     in
     flake-parts.lib.mkFlake {
       inherit inputs;
-    } ({withSystem, inputs, ...}@ctx: {
+    } ({withSystem, inputs, ...}@ctx: let
+      defaultPkgs = system:
+        import nixpkgs-stable (import ./pkg-options.nix {inherit system inputs;});
+    in {
       debug = true; # DEBUG
       systems = (import inputs.systems);
+      perSystem = {system, pkgs, inputs', ...}: {
+        _module.args.pkgs = defaultPkgs system;
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            nix-detsys
+            alejandra
+            git
+            (inputs'.disko.packages.default.override {nix = nix-detsys;})
+          ];
+        };
+      };
       flake = {
         inherit flakeInfo; # make available on self
 
