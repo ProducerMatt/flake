@@ -32,6 +32,7 @@
 
   outputs = { self, nixpkgs-stable, flake-parts, ... }@inputs:
     let
+      importApply = flake-parts.lib.importApply;
       flakeInfo = {
         inherit (self) lastModified lastModifiedDate narHash;
         rev = self.rev or "dirty";
@@ -77,7 +78,7 @@
           inherit system specialArgs;
           modules = [
             flakeInfoModule
-            {nixpkgs = (import ./pkg-options.nix {inherit system inputs;});}
+            {nixpkgs = (importApply ./pkg-options.nix {inherit system inputs;});}
             inputs.home-manager-stable.nixosModules.home-manager
             inputs.determinate.nixosModules.default
             inputs.disko.nixosModules.disko
