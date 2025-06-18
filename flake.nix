@@ -88,7 +88,6 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = specialArgs; # Fixes infinite recursion error
               home-manager.users.matt = ./hm/matt.nix;
             }
           ];
