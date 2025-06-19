@@ -38,7 +38,7 @@
         rev = self.rev or "dirty";
         shortRev = self.shortRev or "dirty";
         revCount = self.revCount or "dirty";
-        rootDir = builtins.path {path = "./."; name= "flakeRootDir";};
+        rootDir = builtins.path {path = ./.; name= "flakeRootDir";};
       };
       flakeInfoModule = ({ config, ... }: {
         users.motd = ''
