@@ -69,7 +69,7 @@
 
       nixosConfigurations.newPortable = let
         system = "x86_64-linux";
-        specialArgs = {inherit inputs;};
+        specialArgs = {inherit self inputs;};
       in nixpkgs-stable.lib.nixosSystem {
         inherit system specialArgs;
         modules = [
