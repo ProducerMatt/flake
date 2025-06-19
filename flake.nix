@@ -32,6 +32,7 @@
 
   outputs = { self, nixpkgs-stable, clan-core, ... }@inputs:
     let
+      globals.publicSSH = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfK6c9SiwYYRxy10EMVh1sctDgy6JN/fMyzsO1hACnN Matt's private login key";
       flakeInfo = {
         inherit (self) lastModified lastModifiedDate narHash;
         rev = self.rev or "dirty";
@@ -59,7 +60,7 @@
         machines = {
           newPortable = let
             system = "x86_64-linux";
-            specialArgs = {inherit self inputs system;};
+            specialArgs = {inherit self inputs system globals;};
           in {
             inherit system specialArgs;
             modules = [
@@ -71,6 +72,7 @@
               inputs.impermanence.nixosModules.impermanence
               ./impermanence.nix
               ./nixos/newPortable/configuration.nix
+              {users.users.root.openssh.authorizedKeys.keys = [ globals.publicSSH ];}
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
