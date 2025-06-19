@@ -2,7 +2,7 @@
   inputs = {
     systems.url = "github:nix-systems/x86_64-linux";
 
-    flake-parts.url = "github:hercules-ci/flake-parts";
+    clan-core.url = "git+https://git.clan.lol/clan/clan-core";
 
     nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*";
     nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
@@ -30,9 +30,8 @@
     templates.url = "github:ProducerMatt/nix-templates";
   };
 
-  outputs = { self, nixpkgs-stable, flake-parts, ... }@inputs:
+  outputs = { self, nixpkgs-stable, clan-core, ... }@inputs:
     let
-      importApply = flake-parts.lib.importApply;
       flakeInfo = {
         inherit (self) lastModified lastModifiedDate narHash;
         rev = self.rev or "dirty";
@@ -52,6 +51,37 @@
         import nixpkgs-stable (import ./pkg-options.nix {inherit system inputs;});
       systems = (import inputs.systems);
       eachSystem = nixpkgs-stable.lib.genAttrs systems;
+      clan = clan-core.lib.buildClan {
+        inherit self;
+        specialArgs = {};
+        meta.name = "Deltarune";
+
+        machines = {
+          newPortable = let
+            system = "x86_64-linux";
+            specialArgs = {inherit self inputs system;};
+          in {
+            inherit system specialArgs;
+            modules = [
+              flakeInfoModule
+              {nixpkgs = (import ./pkg-options.nix {inherit system inputs;});}
+              inputs.home-manager-stable.nixosModules.home-manager
+              inputs.determinate.nixosModules.default
+              inputs.disko.nixosModules.disko
+              inputs.impermanence.nixosModules.impermanence
+              ./impermanence.nix
+              ./nixos/newPortable/configuration.nix
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.users.matt = ./hm/matt.nix;
+                home-manager.extraSpecialArgs = specialArgs;
+              }
+            ];
+          };
+
+        };
+      };
     in {
       devShells = eachSystem (system: let
         pkgs = defaultPkgs system;
@@ -61,29 +91,12 @@
             import ./shell-packages.nix {inherit system inputs pkgs;};
         };
       });
-      inherit flakeInfo; # make available on self
 
-      nixosConfigurations.newPortable = let
-        system = "x86_64-linux";
-        specialArgs = {inherit self inputs system;};
-      in nixpkgs-stable.lib.nixosSystem {
-        inherit system specialArgs;
-        modules = [
-          flakeInfoModule
-          {nixpkgs = (import ./pkg-options.nix {inherit system inputs;});}
-          inputs.home-manager-stable.nixosModules.home-manager
-          inputs.determinate.nixosModules.default
-          inputs.disko.nixosModules.disko
-          inputs.impermanence.nixosModules.impermanence
-          ./impermanence.nix
-          ./nixos/newPortable/configuration.nix
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.matt = ./hm/matt.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-          }
-        ];
+      inherit flakeInfo; # make available on self
+      inherit (clan) nixosConfigurations clanInternals;
+
+      clan = {
+        inherit (clan) templates;
       };
 
       homeConfigurations.matt = inputs.home-manager-stable.lib.homeManagerConfiguration (import ./hm/matt.nix);
