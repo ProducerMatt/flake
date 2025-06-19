@@ -57,19 +57,15 @@
         pkgs = defaultPkgs system;
       in {
         default = pkgs.mkShell {
-          packages = with pkgs; [
-            nix-detsys
-            alejandra
-            git
-            (inputs.disko.packages.${system}.default.override {nix = nix-detsys;})
-          ];
+          packages =
+            import ./shell-packages.nix {inherit system inputs pkgs;};
         };
       });
       inherit flakeInfo; # make available on self
 
       nixosConfigurations.newPortable = let
         system = "x86_64-linux";
-        specialArgs = {inherit self inputs;};
+        specialArgs = {inherit self inputs system;};
       in nixpkgs-stable.lib.nixosSystem {
         inherit system specialArgs;
         modules = [

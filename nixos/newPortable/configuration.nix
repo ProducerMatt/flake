@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ inputs, config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, system, ... }:
 
 {
   imports =
@@ -78,12 +78,10 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     neovim
-    git
-    alejandra
     wget
     helix
     yazi
-  ];
+  ] ++ (import ../../shell-packages.nix {inherit system inputs pkgs;});
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
