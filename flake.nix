@@ -69,9 +69,9 @@
 
       nixosConfigurations.newPortable = let
         system = "x86_64-linux";
-      in nixpkgs-stable.lib.nixosSystem {
-        inherit system;
         specialArgs = {inherit inputs;};
+      in nixpkgs-stable.lib.nixosSystem {
+        inherit system specialArgs;
         modules = [
           flakeInfoModule
           {nixpkgs = (import ./pkg-options.nix {inherit system inputs;});}
@@ -85,6 +85,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.matt = ./hm/matt.nix;
+            home-manager.extraSpecialArgs = specialArgs;
           }
         ];
       };
