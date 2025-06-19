@@ -48,52 +48,47 @@
         '';
         system.configurationRevision = flakeInfo.rev;
       });
-    in
-    flake-parts.lib.mkFlake {
-      inherit inputs;
-    } ({withSystem, inputs, ...}@ctx: let
       defaultPkgs = system:
         import nixpkgs-stable (import ./pkg-options.nix {inherit system inputs;});
-    in {
-      debug = true; # DEBUG
       systems = (import inputs.systems);
-      perSystem = {system, pkgs, inputs', ...}: {
-        _module.args.pkgs = defaultPkgs system;
-        devShells.default = pkgs.mkShell {
+      eachSystem = nixpkgs-stable.lib.genAttrs systems;
+    in {
+      devShells = eachSystem (system: let
+        pkgs = defaultPkgs system;
+      in {
+        default = pkgs.mkShell {
           packages = with pkgs; [
             nix-detsys
             alejandra
             git
-            (inputs'.disko.packages.default.override {nix = nix-detsys;})
+            (inputs.disko.packages.${system}.default.override {nix = nix-detsys;})
           ];
         };
-      };
-      flake = {
-        inherit flakeInfo; # make available on self
+      });
+      inherit flakeInfo; # make available on self
 
-        nixosConfigurations.newPortable = let
-          system = "x86_64-linux";
-          specialArgs = ctx; # Fixes infinite recursion error
-        in nixpkgs-stable.lib.nixosSystem {
-          inherit system specialArgs;
-          modules = [
-            flakeInfoModule
-            {nixpkgs = (importApply ./pkg-options.nix {inherit system inputs;});}
-            inputs.home-manager-stable.nixosModules.home-manager
-            inputs.determinate.nixosModules.default
-            inputs.disko.nixosModules.disko
-            inputs.impermanence.nixosModules.impermanence
-            ./impermanence.nix
-            ./nixos/newPortable/configuration.nix
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.matt = ./hm/matt.nix;
-            }
-          ];
-        };
-
-        homeConfigurations.matt = inputs.home-manager-stable.lib.homeManagerConfiguration (import ./hm/matt.nix);
+      nixosConfigurations.newPortable = let
+        system = "x86_64-linux";
+      in nixpkgs-stable.lib.nixosSystem {
+        inherit system;
+        specialArgs = {inherit inputs;};
+        modules = [
+          flakeInfoModule
+          {nixpkgs = (import ./pkg-options.nix {inherit system inputs;});}
+          inputs.home-manager-stable.nixosModules.home-manager
+          inputs.determinate.nixosModules.default
+          inputs.disko.nixosModules.disko
+          inputs.impermanence.nixosModules.impermanence
+          ./impermanence.nix
+          ./nixos/newPortable/configuration.nix
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.matt = ./hm/matt.nix;
+          }
+        ];
       };
-    });
+
+      homeConfigurations.matt = inputs.home-manager-stable.lib.homeManagerConfiguration (import ./hm/matt.nix);
+    };
 }
