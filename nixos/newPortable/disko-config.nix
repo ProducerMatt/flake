@@ -9,7 +9,7 @@
     disk = {
       main = {
         type = "disk";
-        device = "/dev/sda"; # FIXME: remove once part of full config
+        device = "/dev/sdb"; # FIXME: remove once part of full config
         content = {
           type = "gpt";
           partitions = {
