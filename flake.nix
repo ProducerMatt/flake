@@ -73,7 +73,8 @@
                })
               inputs.home-manager-stable.nixosModules.home-manager
               inputs.determinate.nixosModules.default
-              inputs.disko.nixosModules.disko
+              # # NOTE: ALREADY IMPORTED BY CLAN
+              # inputs.disko.nixosModules.disko
               inputs.impermanence.nixosModules.impermanence
               ./impermanence.nix
               ./nixos/newPortable/configuration.nix
