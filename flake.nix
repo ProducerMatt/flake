@@ -60,7 +60,7 @@
         machines = {
           newPortable = let
             system = "x86_64-linux";
-            specialArgs = {inherit self inputs system globals;};
+            specialArgs = {inherit system globals;};
           in {
             inherit specialArgs;
             nixpkgs.hostPlatform = system;
