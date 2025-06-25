@@ -60,9 +60,7 @@
         machines = {
           newPortable = let
             system = "x86_64-linux";
-            specialArgs = {inherit system;};
           in {
-            inherit specialArgs;
             nixpkgs.hostPlatform = system;
             imports = [
               flakeInfoModule
@@ -80,10 +78,12 @@
               ./nixos/newPortable/configuration.nix
               {users.users.root.openssh.authorizedKeys.keys = [ globals.publicSSH ];}
               {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.matt = ./hm/matt.nix;
-                home-manager.extraSpecialArgs = specialArgs;
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.matt = ./hm/matt.nix;
+                  extraSpecialArgs = {inherit self inputs;};
+                };
               }
             ];
           };
