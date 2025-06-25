@@ -54,13 +54,13 @@
       eachSystem = nixpkgs-stable.lib.genAttrs systems;
       clan = clan-core.lib.buildClan {
         inherit self;
-        specialArgs = {};
+        specialArgs = {inherit self inputs globals;};
         meta.name = "Deltarune";
 
         machines = {
           newPortable = let
             system = "x86_64-linux";
-            specialArgs = {inherit system globals;};
+            specialArgs = {inherit system;};
           in {
             inherit specialArgs;
             nixpkgs.hostPlatform = system;
