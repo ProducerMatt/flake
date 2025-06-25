@@ -62,8 +62,9 @@
             system = "x86_64-linux";
             specialArgs = {inherit self inputs system globals;};
           in {
-            inherit system specialArgs;
-            modules = [
+            inherit specialArgs;
+            nixpkgs.hostPlatform = system;
+            imports = [
               flakeInfoModule
               {nixpkgs = (import ./pkg-options.nix {inherit system inputs;});}
               inputs.home-manager-stable.nixosModules.home-manager
