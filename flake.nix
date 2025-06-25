@@ -66,7 +66,11 @@
             nixpkgs.hostPlatform = system;
             imports = [
               flakeInfoModule
-              {nixpkgs = (import ./pkg-options.nix {inherit system inputs;});}
+              (let f = ./pkg-options.nix; in
+               {
+                 _file = f;
+                 config.nixpkgs = (import ./pkg-options.nix {inherit system inputs;});
+               })
               inputs.home-manager-stable.nixosModules.home-manager
               inputs.determinate.nixosModules.default
               inputs.disko.nixosModules.disko
