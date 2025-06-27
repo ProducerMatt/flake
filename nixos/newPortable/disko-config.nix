@@ -43,6 +43,7 @@
                     mountOptions = ["subvol=home" "compress=zstd" "noatime"];
                     mountpoint = "/home";
                   };
+                  "/home/matt" = {};
                   "/nix" = {
                     mountOptions = [
                       "subvol=nix"
@@ -63,8 +64,12 @@
                     mountpoint = "/var/lib";
                     mountOptions = ["subvol=lib" "compress=zstd" "noatime"];
                   };
+                  "/persist/swap" = {
+                    mountpoint = "/swap";
+                    swap.swapfile.size = "16G";
+                    resumeDevice = true;
+                  };
                 };
-
               };
             };
           };

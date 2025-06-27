@@ -1,9 +1,9 @@
 {lib, ...}: 
 let
-  ram_size_gb = 16;
-  # TODO: make module setting
+  # ram_size_gb = 16;
+  # # TODO: make module setting
 in {
-  # Reset root subvolume on boot
+  #  Reset root subvolume on boot
   boot.initrd.postResumeCommands = lib.mkAfter ''
     mkdir /btrfs_tmp
     mount /dev/disk/by-partlabel/disk-main-root /btrfs_tmp # CONFIRM THIS IS CORRECT FROM findmnt
@@ -36,35 +36,33 @@ in {
       "/etc" # System configuration (Keep this here for persistence via bind-mount)
       "/var/spool" # Mail queues, cron jobs
       "/srv" # Web server data, etc.
-      "/root" # Root user's home
-      # "/var/log" # Persist logs are handled by disko
+      "/root"
     ];
     files = [
-      #"/swapfile" # Persist swapfile (impermanence manages this file)
     ];
   };
 
-  # Swapfile configuration (definition for Systemd)
-  swapDevices = [
-    {
-      device = "/persist/swapfile"; # Points to the persistent location of the swapfile
-      size = ram_size_gb * 1024; # GB to MiB
-    }
-  ];
+  # # Swapfile configuration (definition for Systemd)
+  # swapDevices = [
+  #   {
+  #     device = "/persist/swapfile"; # Points to the persistent location of the swapfile
+  #     size = ram_size_gb * 1024; # GB to MiB
+  #   }
+  # ];
 
-  # --- SWAPFILE INITIALIZATION & FORMATTING (CRITICAL for activation) ---
-  # 1. Ensure the swapfile exists at the specified size with correct permissions early via tmpfiles.
-  #    The ${toString (ram_size_gb  * 1024 * 1024 * 1024)} converts GB to bytes.
-  systemd.tmpfiles.rules = [
-    "f /persist/swapfile 0600 - - ${toString (ram_size_gb * 1024 * 1024 * 1024)} -"
-  ];
+  # # --- SWAPFILE INITIALIZATION & FORMATTING (CRITICAL for activation) ---
+  # # 1. Ensure the swapfile exists at the specified size with correct permissions early via tmpfiles.
+  # #    The ${toString (ram_size_gb  * 1024 * 1024 * 1024)} converts GB to bytes.
+  # systemd.tmpfiles.rules = [
+  #   "f /persist/swapfile 0600 - - ${toString (ram_size_gb * 1024 * 1024 * 1024)} -"
+  # ];
 
-  # 2. Format the swapfile *only if it's not already formatted* during boot.
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-    if ! blkid -p /persist/swapfile | grep -q 'TYPE="swap"'; then
-      echo "NixOS: Formatting /persist/swapfile..."
-      mkswap /persist/swapfile
-    fi
-  '';
-  # --- END SWAPFILE INITIALIZATION & FORMATTING ---
+  # # 2. Format the swapfile *only if it's not already formatted* during boot.
+  # boot.initrd.postDeviceCommands = lib.mkAfter ''
+  #   if ! blkid -p /persist/swapfile | grep -q 'TYPE="swap"'; then
+  #     echo "NixOS: Formatting /persist/swapfile..."
+  #     mkswap /persist/swapfile
+  #   fi
+  # '';
+  # # --- END SWAPFILE INITIALIZATION & FORMATTING ---
 }
