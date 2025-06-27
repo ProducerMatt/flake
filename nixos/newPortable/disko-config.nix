@@ -67,7 +67,7 @@
                   "/persist/swap" = {
                     mountpoint = "/swap";
                     swap.swapfile.size = "16G";
-                    resumeDevice = true;
+                    # resumeDevice = true; # FIXME: not allowed?
                   };
                 };
               };
