@@ -43,7 +43,6 @@
                     mountOptions = ["subvol=home" "compress=zstd" "noatime"];
                     mountpoint = "/home";
                   };
-                  "/home/user" = {};
                   "/nix" = {
                     mountOptions = [
                       "subvol=nix"
@@ -64,8 +63,6 @@
                     mountpoint = "/var/lib";
                     mountOptions = ["subvol=lib" "compress=zstd" "noatime"];
                   };
-                  # This subvolume will be created but not mounted
-                  "/test" = {};
                 };
 
               };
