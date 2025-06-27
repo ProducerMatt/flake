@@ -87,7 +87,7 @@
             system = "x86_64-linux";
           in
             nixpkgs-stable.lib.nixosSystem {
-              specialArgs = {inherit self inputs globals;};
+              specialArgs = {inherit self inputs globals system;};
               modules = [
                 {nixpkgs.hostPlatform = system;}
                 flakeInfoModule
