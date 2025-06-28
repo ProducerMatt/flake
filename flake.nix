@@ -28,6 +28,8 @@
     emacs-overlay.inputs.nixpkgs-stable.follows = "nixpkgs-stable";
 
     templates.url = "github:ProducerMatt/nix-templates";
+
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs = {
@@ -100,6 +102,7 @@
                 inputs.home-manager-stable.nixosModules.home-manager
                 inputs.determinate.nixosModules.default
                 inputs.disko.nixosModules.disko
+                inputs.sops-nix.nixosModules.sops
                 inputs.impermanence.nixosModules.impermanence
                 ./impermanence.nix
                 ./nixos/newPortable/configuration.nix
