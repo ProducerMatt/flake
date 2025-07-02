@@ -132,31 +132,28 @@
         _module.args.pkgs = defaultPkgs system;
         pre-commit = {
           settings = {
-            default_stages = ["manual" "pre-push" "pre-merge-commit"];
+            default_stages = ["manual" "pre-push" "pre-merge-commit" "pre-commit"];
             hooks = let
-              enable_on_commit = {
-                enable = true;
-                stages = ["manual" "pre-push" "pre-merge-commit" "pre-commit"];
-              };
-              enable_on_manual = {
+              manual_only = {
                 enable = true;
                 stages = ["manual"];
               };
             in {
-              alejandra = enable_on_commit;
-              check-added-large-files = enable_on_commit;
-              check-json = enable_on_commit;
-              check-merge-conflicts = enable_on_commit;
-              check-symlinks = enable_on_commit;
-              check-toml = enable_on_commit;
-              check-vcs-permalinks = enable_on_commit;
-              check-xml = enable_on_commit;
-              check-yaml = enable_on_commit;
-              detect-private-keys = enable_on_commit;
-              flake-checker = enable_on_commit;
-              lychee = enable_on_manual;
-              pre-commit-hook-ensure-sops = enable_on_commit;
-              ripsecrets = enable_on_commit;
+              alejandra.enable = true;
+              check-added-large-files.enable = true;
+              check-json.enable = true;
+              check-merge-conflicts.enable = true;
+              check-symlinks.enable = true;
+              check-toml.enable = true;
+              check-vcs-permalinks.enable = true;
+              check-xml.enable = true;
+              check-yaml.enable = true;
+              detect-private-keys.enable = true;
+              flake-checker.enable = true;
+              pre-commit-hook-ensure-sops.enable = true;
+              ripsecrets.enable = true;
+
+              lychee = manual_only;
             };
           };
         };
