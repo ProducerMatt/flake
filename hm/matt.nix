@@ -2,6 +2,7 @@
   inputs,
   self,
   pkgs,
+  lib,
   ...
 }: let
   start_emacs = "emacsclient -c -a 'emacs'";
@@ -42,6 +43,24 @@ in {
   services.emacs = {
     enable = true;
     package = pkgs.emacs-unstable;
+  };
+
+  languages = {
+    language-server = {
+      nil = {
+        command = lib.getExe pkgs.nil;
+      };
+      nixd = {
+        command = lib.getExe pkgs.nixd;
+      };
+      language = [
+        {
+          name = "nix";
+          language-servers = ["nixd" "nil"];
+          formatter.command = lib.getExe pkgs.alejandra;
+        }
+      ];
+    };
   };
 
   programs.pay-respects = {
