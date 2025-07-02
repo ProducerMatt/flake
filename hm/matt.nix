@@ -47,21 +47,24 @@ in {
     package = pkgs.emacs-unstable;
   };
 
-  languages = {
-    language-server = {
-      nil = {
-        command = lib.getExe pkgs.nil;
+  programs.helix = {
+    enable = true;
+    languages = {
+      language-server = {
+        nil = {
+          command = lib.getExe pkgs.nil;
+        };
+        nixd = {
+          command = lib.getExe pkgs.nixd;
+        };
+        language = [
+          {
+            name = "nix";
+            language-servers = ["nixd" "nil"];
+            formatter.command = lib.getExe pkgs.alejandra;
+          }
+        ];
       };
-      nixd = {
-        command = lib.getExe pkgs.nixd;
-      };
-      language = [
-        {
-          name = "nix";
-          language-servers = ["nixd" "nil"];
-          formatter.command = lib.getExe pkgs.alejandra;
-        }
-      ];
     };
   };
 
