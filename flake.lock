@@ -208,27 +208,6 @@
         "url": "https://flakehub.com/f/hercules-ci/flake-parts/0.1"
       }
     },
-    "git-hooks": {
-      "inputs": {
-        "flake-compat": "flake-compat_2",
-        "gitignore": "gitignore",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1750779888,
-        "narHash": "sha256-wibppH3g/E2lxU43ZQHC5yA/7kIKLGxVEnsnVK1BtRg=",
-        "rev": "16ec914f6fb6f599ce988427d9d94efddf25fe6d",
-        "revCount": 1031,
-        "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/cachix/git-hooks.nix/0.1.1031%2Brev-16ec914f6fb6f599ce988427d9d94efddf25fe6d/0197a305-d090-7fec-a0b8-cfb8ee69dc9b/source.tar.gz"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://flakehub.com/f/cachix/git-hooks.nix/%2A"
-      }
-    },
     "git-hooks-nix": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -257,6 +236,27 @@
     },
     "git-hooks-nix_2": {
       "inputs": {
+        "flake-compat": "flake-compat_2",
+        "gitignore": "gitignore",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1750779888,
+        "narHash": "sha256-wibppH3g/E2lxU43ZQHC5yA/7kIKLGxVEnsnVK1BtRg=",
+        "rev": "16ec914f6fb6f599ce988427d9d94efddf25fe6d",
+        "revCount": 1031,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/cachix/git-hooks.nix/0.1.1031%2Brev-16ec914f6fb6f599ce988427d9d94efddf25fe6d/0197a305-d090-7fec-a0b8-cfb8ee69dc9b/source.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://flakehub.com/f/cachix/git-hooks.nix/%2A"
+      }
+    },
+    "git-hooks-nix_3": {
+      "inputs": {
         "flake-compat": "flake-compat_3",
         "gitignore": [
           "nix-detsys"
@@ -282,7 +282,7 @@
     "gitignore": {
       "inputs": {
         "nixpkgs": [
-          "git-hooks",
+          "git-hooks-nix",
           "nixpkgs"
         ]
       },
@@ -357,7 +357,7 @@
     "nix-detsys": {
       "inputs": {
         "flake-parts": "flake-parts_3",
-        "git-hooks-nix": "git-hooks-nix_2",
+        "git-hooks-nix": "git-hooks-nix_3",
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-23-11": "nixpkgs-23-11_2",
         "nixpkgs-regression": "nixpkgs-regression_2"
@@ -581,7 +581,7 @@
         "disko": "disko",
         "emacs-overlay": "emacs-overlay",
         "flake-parts": "flake-parts_2",
-        "git-hooks": "git-hooks",
+        "git-hooks-nix": "git-hooks-nix_2",
         "home-manager-stable": "home-manager-stable",
         "impermanence": "impermanence",
         "nix-detsys": "nix-detsys",

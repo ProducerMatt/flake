@@ -9,8 +9,8 @@
     home-manager-stable.url = "https://flakehub.com/f/nix-community/home-manager/0.2505";
     home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
 
-    git-hooks.url = "https://flakehub.com/f/cachix/git-hooks.nix/*";
-    git-hooks.inputs.nixpkgs.follows = "nixpkgs";
+    git-hooks-nix.url = "https://flakehub.com/f/cachix/git-hooks.nix/*";
+    git-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
@@ -71,10 +71,7 @@
       debug = true; # DEBUG
 
       imports = [
-        # To import a flake module
-        # 1. Add foo to inputs
-        # 2. Add foo as a parameter to the outputs function
-        # 3. Add here: foo.flakeModule
+        inputs.git-hooks-nix.flakeModule
       ];
 
       inherit systems;
@@ -121,13 +118,39 @@
       };
 
       perSystem = {
-        #config,
+        config,
         pkgs,
         system,
         ...
       }: {
         # This sets `pkgs` to a nixpkgs with allowUnfree option set.
         _module.args.pkgs = defaultPkgs system;
+        pre-commit = {
+            settings = {
+              default_stages = ["manual" "pre-push" "pre-merge-commit"];
+              hooks = let
+                  enable_on_commit = {
+                    enable = true;
+                    stages = ["manual" "pre-push" "pre-merge-commit" "pre-commit"];
+                  };
+              in {
+                alejandra = enable_on_commit;
+                check-added-large-files = enable_on_commit;
+                check-json = enable_on_commit;
+                check-merge-conflicts = enable_on_commit;
+                check-symlinks = enable_on_commit;
+                check-toml = enable_on_commit;
+                check-vcs-permalinks = enable_on_commit;
+                check-xml = enable_on_commit;
+                check-yaml = enable_on_commit;
+                detect-private-keys = enable_on_commit;
+                flake-checker = enable_on_commit;
+                  lychee = enable_on_commit;
+                pre-commit-hook-ensure-sops = enable_on_commit;
+                ripsecrets = enable_on_commit;
+              };
+            };
+        };
         devShells = {
           default = pkgs.mkShell {
             packages =
