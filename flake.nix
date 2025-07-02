@@ -30,6 +30,11 @@
     templates.url = "github:ProducerMatt/nix-templates";
 
     sops-nix.url = "github:Mic92/sops-nix";
+
+    nil.url = "github:oxalica/nil";
+    nil.inputs.nixpkgs.follows = "nixpkgs";
+    nixd.url = "github:nix-community/nixd";
+    nixd.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {

@@ -11,4 +11,6 @@ with pkgs; [
   (inputs.disko.packages.${system}.default.override {nix = nix-detsys;})
   sops
   age
+  nil
+  nixd
 ]

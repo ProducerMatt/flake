@@ -17,8 +17,8 @@
     #(gimme "nix-btm" "nix-btm")
     inputs.nix-detsys.overlays.default
     (gimme "nix" "nix-detsys")
-    #(gimme "nil" "nil")
-    #(gimme "nixd" "nixd")
+    (gimme "nil" "nil")
+    (gimme "nixd" "nixd")
     inputs.emacs-overlay.overlays.default
   ];
 }
