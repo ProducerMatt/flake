@@ -43,7 +43,7 @@
     flake-parts,
     ...
   } @ inputs: let
-    globals = ./globals.nix;
+    globals = import ./globals.nix;
     flakeInfo = {
       inherit (self) lastModified lastModifiedDate narHash;
       rev = self.rev or "dirty";
