@@ -126,35 +126,41 @@
         # This sets `pkgs` to a nixpkgs with allowUnfree option set.
         _module.args.pkgs = defaultPkgs system;
         pre-commit = {
-            settings = {
-              default_stages = ["manual" "pre-push" "pre-merge-commit"];
-              hooks = let
-                  enable_on_commit = {
-                    enable = true;
-                    stages = ["manual" "pre-push" "pre-merge-commit" "pre-commit"];
-                  };
-              in {
-                alejandra = enable_on_commit;
-                check-added-large-files = enable_on_commit;
-                check-json = enable_on_commit;
-                check-merge-conflicts = enable_on_commit;
-                check-symlinks = enable_on_commit;
-                check-toml = enable_on_commit;
-                check-vcs-permalinks = enable_on_commit;
-                check-xml = enable_on_commit;
-                check-yaml = enable_on_commit;
-                detect-private-keys = enable_on_commit;
-                flake-checker = enable_on_commit;
-                  lychee = enable_on_commit;
-                pre-commit-hook-ensure-sops = enable_on_commit;
-                ripsecrets = enable_on_commit;
+          settings = {
+            default_stages = ["manual" "pre-push" "pre-merge-commit"];
+            hooks = let
+              enable_on_commit = {
+                enable = true;
+                stages = ["manual" "pre-push" "pre-merge-commit" "pre-commit"];
               };
+              enable_on_manual = {
+                enable = true;
+                stages = ["manual"];
+              };
+            in {
+              alejandra = enable_on_commit;
+              check-added-large-files = enable_on_commit;
+              check-json = enable_on_commit;
+              check-merge-conflicts = enable_on_commit;
+              check-symlinks = enable_on_commit;
+              check-toml = enable_on_commit;
+              check-vcs-permalinks = enable_on_commit;
+              check-xml = enable_on_commit;
+              check-yaml = enable_on_commit;
+              detect-private-keys = enable_on_commit;
+              flake-checker = enable_on_commit;
+              lychee = enable_on_manual;
+              pre-commit-hook-ensure-sops = enable_on_commit;
+              ripsecrets = enable_on_commit;
             };
+          };
         };
         devShells = {
           default = pkgs.mkShell {
             packages =
               import ./shell-packages.nix {inherit system inputs pkgs;};
+            inputsFrom = [config.pre-commit.devShell];
+            shellHook = config.pre-commit.installationScript;
           };
         };
       };
