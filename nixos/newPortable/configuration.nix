@@ -8,7 +8,9 @@
   pkgs,
   system,
   ...
-}: {
+}: let
+  globals = import ../../globals.nix;
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -70,9 +72,21 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.matt = {
     isNormalUser = true;
-    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
+    extraGroups = ["networkmanager" "wheel" "vboxusers"];
     initialHashedPassword = "$6$cXUmEOPi4lj1p.U8$hhR4ZLi6Nj/jTGBvFhNmWI4fozrtWcgh3tkZ8b93Hb5mMIU9fgTDT0mtdHFQhPNol9HSylwnO69th.Fm4BKYj/";
+    shell = pkgs.fish;
+    openssh.authorizedKeys.keys = [
+      globals.publicSSH
+      ''
+        from="192.168.1.4",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM0MTVh6Bi82YLKJlpo+4fQRQ3mhZWXFD7VcZEPPWHWA backup@BackupPC
+      ''
+      #''
+      #  from="192.168.1.4",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty,command="rrsync -ro /home/matt" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM0MTVh6Bi82YLKJlpo+4fQRQ3mhZWXFD7VcZEPPWHWA backup@BackupPC
+      #''
+    ];
   };
+
+  programs.fish.enable = true; # required for vendor distributions of autocomplete, etc.
 
   nixpkgs.config.allowUnfree = true;
 

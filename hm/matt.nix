@@ -23,6 +23,8 @@ in {
     KEYID = "E6EA80E5CB3E1F9C";
     TERM = "xterm-direct";
     COLORTERM = "truecolor";
+    # NOTE: Nixd generates a large amount of logs (in ~/.local/state/nvim/lsp.log).
+    NIXD_FLAGS = "-log=error";
 
     EDITOR = start_emacs;
     VISUAL = start_emacs;
@@ -72,6 +74,7 @@ in {
   home.username = "matt";
   home.homeDirectory = "/home/matt";
   home.stateVersion = "25.05";
+  # TODO: define this by system rather than in hm
 
   programs.direnv = {
     enable = true;
