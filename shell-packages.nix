@@ -1,5 +1,8 @@
-{pkgs, inputs, system}:
-
+{
+  pkgs,
+  inputs,
+  system,
+}:
 with pkgs; [
   nix-detsys
   alejandra

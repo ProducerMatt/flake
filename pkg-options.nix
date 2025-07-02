@@ -1,4 +1,7 @@
-{system, inputs}: {
+{
+  system,
+  inputs,
+}: {
   inherit system;
   config = {
     allowUnfree = true;

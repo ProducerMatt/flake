@@ -1,4 +1,9 @@
-{ inputs, self, pkgs, ... }: let
+{
+  inputs,
+  self,
+  pkgs,
+  ...
+}: let
   start_emacs = "emacsclient -c -a 'emacs'";
 in {
   imports = [

@@ -1,5 +1,4 @@
-{lib, ...}: 
-let
+{lib, ...}: let
   # ram_size_gb = 16;
   # # TODO: make module setting
 in {

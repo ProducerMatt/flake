@@ -1,17 +1,21 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ inputs, config, lib, pkgs, system, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./disko-config.nix
-      ../../home-network.nix
-      inputs.nix-index-database.nixosModules.nix-index
-    ];
+  inputs,
+  config,
+  lib,
+  pkgs,
+  system,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./disko-config.nix
+    ../../home-network.nix
+    inputs.nix-index-database.nixosModules.nix-index
+  ];
 
   boot.loader.systemd-boot.enable = true;
 
@@ -66,7 +70,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.matt = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
     initialHashedPassword = "$6$cXUmEOPi4lj1p.U8$hhR4ZLi6Nj/jTGBvFhNmWI4fozrtWcgh3tkZ8b93Hb5mMIU9fgTDT0mtdHFQhPNol9HSylwnO69th.Fm4BKYj/";
   };
 
@@ -76,12 +80,14 @@
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
-  environment.systemPackages = with pkgs; [
-    neovim
-    wget
-    helix
-    yazi
-  ] ++ (import ../../shell-packages.nix {inherit system inputs pkgs;});
+  environment.systemPackages = with pkgs;
+    [
+      neovim
+      wget
+      helix
+      yazi
+    ]
+    ++ (import ../../shell-packages.nix {inherit system inputs pkgs;});
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -128,6 +134,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "25.05"; # Did you read the comment?
-
 }
-
