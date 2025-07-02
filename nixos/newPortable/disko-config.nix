@@ -7,7 +7,7 @@
 {
   disko.devices = {
     disk = {
-      main = {
+      newPortable = {
         type = "disk";
         device = "/dev/sda"; # FIXME: remove once part of full config
         content = {
@@ -67,7 +67,7 @@
                   "/persist/swap" = {
                     mountpoint = "/swap";
                     swap.swapfile.size = "16G";
-                    # resumeDevice = true; # FIXME: not allowed?
+                    # resumeDevice = true; # NOTE: works fine without it
                   };
                 };
               };

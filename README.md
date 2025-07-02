@@ -3,6 +3,6 @@
 ## Installation example
 
 ```sh
-sudo nix run 'github:nix-community/disko/latest#disko-install' -- --flake .#newPortable --disk main /dev/sda
+sudo disko-install --flake .#newPortable --disk newPortable /dev/sda --extra-files ~/.ssh /home/matt/.ssh --extra-files ~/home-flake/ /home/matt/src/home-flake --extra-files ~/dotfiles/ /home/matt/src/dotfiles
 ```
 ```
