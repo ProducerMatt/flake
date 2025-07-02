@@ -3,7 +3,6 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {
   inputs,
-  config,
   lib,
   pkgs,
   system,
@@ -14,10 +13,14 @@ in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./disko-config.nix
     ../../home-network.nix
     inputs.nix-index-database.nixosModules.nix-index
   ];
+
+  matt.impermanence = {
+    enable = true;
+    swapsize = "16G";
+  };
 
   boot.loader.systemd-boot.enable = true;
 

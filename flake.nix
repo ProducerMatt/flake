@@ -84,6 +84,11 @@
       flake = {
         inherit flakeInfo; # make available on self
 
+        nixosModules = {
+          inherit flakeInfoModule;
+          impermanence = import ./modules/impermanence;
+        };
+
         homeConfigurations.matt = inputs.home-manager-stable.lib.homeManagerConfiguration (import ./hm/matt.nix);
 
         nixosConfigurations = {
@@ -91,10 +96,13 @@
             system = "x86_64-linux";
           in
             nixpkgs-stable.lib.nixosSystem {
-              specialArgs = {inherit self inputs globals system;};
+              specialArgs = {
+                inherit self inputs globals system;
+                modules = self.nixosModules;
+              };
               modules = [
+                ({modules, ...}: {imports = builtins.attrValues modules;})
                 {nixpkgs.hostPlatform = system;}
-                flakeInfoModule
                 (let
                   f = ./pkg-options.nix;
                 in {
@@ -105,9 +113,7 @@
                 inputs.determinate.nixosModules.default
                 inputs.disko.nixosModules.disko
                 inputs.sops-nix.nixosModules.sops
-                inputs.impermanence.nixosModules.impermanence
-                ./impermanence.nix
-                ./nixos/newPortable/configuration.nix
+                ./nixos/newPortable
                 {
                   users.users.root.openssh.authorizedKeys.keys = [
                     globals.publicSSH

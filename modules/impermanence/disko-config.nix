@@ -4,12 +4,12 @@
 #  imports = [ ./disko-config.nix ];
 #  disko.devices.disk.main.device = "/dev/sda";
 # }
-{
+{config, ...}: {
   disko.devices = {
     disk = {
-      newPortable = {
+      ${config.matt.impermanence.btrfsRootName} = {
         type = "disk";
-        device = "/dev/sda"; # FIXME: remove once part of full config
+        # device = "/dev/sda"; # NOTE: specify by disko-install
         content = {
           type = "gpt";
           partitions = {
@@ -66,7 +66,7 @@
                   };
                   "/persist/swap" = {
                     mountpoint = "/swap";
-                    swap.swapfile.size = "16G";
+                    swap.swapfile.size = config.matt.impermanence.swapsize;
                     # resumeDevice = true; # NOTE: works fine without it
                   };
                 };
