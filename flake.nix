@@ -136,14 +136,17 @@
               ];
             };
         in
-          builtins.listToAttrs map (
-            sys @ {hostname, ...}: {${hostname} = defaultSystem sys;}
-          ) [
-            {
-              hostname = "newPortable";
-              system = "x86_64-linux";
-            }
-          ];
+          builtins.listToAttrs (map (
+              sys @ {hostname, ...}: {
+                name = hostname;
+                value = defaultSystem sys;
+              }
+            ) [
+              {
+                hostname = "newPortable";
+                system = "x86_64-linux";
+              }
+            ]);
       };
 
       perSystem = {
