@@ -4,6 +4,8 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    nixpkgs-lib.url = "github:nix-community/nixpkgs.lib";
+
     nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*";
     nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
     home-manager-stable.url = "https://flakehub.com/f/nix-community/home-manager/0.2505";
@@ -41,8 +43,11 @@
     self,
     nixpkgs-stable,
     flake-parts,
+    nixpkgs-lib,
     ...
   } @ inputs: let
+    inherit (nixpkgs-lib) lib;
+    myLib = import ./my-lib.nix lib;
     globals = import ./globals.nix;
     flakeInfo = {
       inherit (self) lastModified lastModifiedDate narHash;
@@ -91,10 +96,11 @@
 
         homeConfigurations.matt = inputs.home-manager-stable.lib.homeManagerConfiguration (import ./hm/matt.nix);
 
-        nixosConfigurations = {
-          newPortable = let
-            system = "x86_64-linux";
-          in
+        nixosConfigurations = let
+          defaultSystem = {
+            system,
+            hostname,
+          }:
             nixpkgs-stable.lib.nixosSystem {
               specialArgs = {
                 inherit self inputs globals system;
@@ -113,7 +119,7 @@
                 inputs.determinate.nixosModules.default
                 inputs.disko.nixosModules.disko
                 inputs.sops-nix.nixosModules.sops
-                ./nixos/newPortable
+                ./nixos/${hostname}
                 {
                   users.users.root.openssh.authorizedKeys.keys = [
                     globals.publicSSH
@@ -129,7 +135,15 @@
                 }
               ];
             };
-        };
+        in
+          builtins.listToAttrs map (
+            sys @ {hostname, ...}: {${hostname} = defaultSystem sys;}
+          ) [
+            {
+              hostname = "newPortable";
+              system = "x86_64-linux";
+            }
+          ];
       };
 
       perSystem = {
