@@ -57,14 +57,14 @@ in {
         nixd = {
           command = lib.getExe pkgs.nixd;
         };
-        language = [
-          {
-            name = "nix";
-            language-servers = ["nixd" "nil"];
-            formatter.command = lib.getExe pkgs.alejandra;
-          }
-        ];
       };
+      language = [
+        {
+          name = "nix";
+          language-servers = ["nixd" "nil"];
+          formatter.command = lib.getExe pkgs.alejandra;
+        }
+      ];
     };
   };
 
