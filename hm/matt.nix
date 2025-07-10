@@ -26,8 +26,8 @@ in {
     # NOTE: Nixd generates a large amount of logs (in ~/.local/state/nvim/lsp.log).
     NIXD_FLAGS = "-log=error";
 
-    EDITOR = start_emacs;
-    VISUAL = start_emacs;
+    EDITOR = "hx";
+    VISUAL = "hx";
   };
 
   programs.git = {
