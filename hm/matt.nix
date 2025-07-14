@@ -4,6 +4,7 @@
     ./nix-index.nix
     ./git-settings.nix
     ./helix.nix
+    ./shell-usability.nix
   ];
 
   programs.gpg.enable = true;
