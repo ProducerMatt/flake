@@ -75,6 +75,11 @@ in {
   programs.fish = {
     enable = true;
     shellAliases = myAliases;
+    shellInit = ''
+      set fish_24bitcolor 1
+      fish_config theme choose "ayu Dark"
+      fish_config prompt choose "acidhub"
+    '';
   };
   programs.bash = {
     enable = true;
