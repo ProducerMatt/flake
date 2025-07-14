@@ -13,6 +13,7 @@ in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./nh.nix
     ../../home-network.nix
     inputs.nix-index-database.nixosModules.nix-index
   ];
