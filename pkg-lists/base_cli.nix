@@ -9,7 +9,7 @@ with pkgs; [
   p7zip
   tmux
   vim
-  hx
+  helix
   bat
   wget
   fd
