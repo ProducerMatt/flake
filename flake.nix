@@ -89,10 +89,11 @@
       flake = {
         inherit flakeInfo myLib; # make available on self
 
-        nixosModules = {
-          inherit flakeInfoModule;
-          impermanence = import ./modules/impermanence;
-        };
+        nixosModules =
+          {
+            inherit flakeInfoModule;
+          }
+          // myLib.rakeLeaves ./modules;
 
         homeConfigurations.matt = inputs.home-manager-stable.lib.homeManagerConfiguration (import ./hm/matt.nix);
 
