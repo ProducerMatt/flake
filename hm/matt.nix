@@ -1,4 +1,8 @@
-{self, ...}: {
+{
+  self,
+  pkgs,
+  ...
+}: {
   imports = [
     ./core.nix
     ./nix-index.nix
@@ -16,6 +20,25 @@
     KEYID = "E6EA80E5CB3E1F9C";
     # NOTE: Nixd generates a large amount of logs (in ~/.local/state/nvim/lsp.log).
     NIXD_FLAGS = "-log=error";
+  };
+
+  programs.bat = {
+    enable = true;
+    extraPackages = with pkgs.bat-extras; [
+      batdiff
+      batman
+      prettybat
+    ];
+    settings = {
+      italic-text = "always";
+      map-syntax = [
+        "*.ino:C++"
+        ".ignore:Git Ignore"
+      ];
+      pager = "less --RAW-CONTROL-CHARS --quit-if-one-screen --mouse";
+      paging = "never";
+      theme = "TwoDark";
+    };
   };
 
   home.username = "matt";
