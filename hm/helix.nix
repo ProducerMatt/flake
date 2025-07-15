@@ -63,8 +63,9 @@
         };
 
         statusline = {
-          left = ["mode" "file-name" "spinner" "read-only-indicator" "file-modification-indicator"];
-          right = ["diagnostics" "selections" "register" "file-type" "file-line-ending" "position"];
+          left = ["mode" "spinner" "selections" "register"];
+          center = ["file-name" "position" "read-only-indicator" "file-modification-indicator" "version-control"];
+          right = ["diagnostics" "file-type" "file-line-ending"];
           mode.normal = "";
           mode.insert = "I";
           mode.select = "S";
