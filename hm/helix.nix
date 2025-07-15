@@ -23,7 +23,7 @@
       ];
     };
     settings = {
-      theme = "kanabox";
+      theme = "iroaseta";
 
       editor = {
         color-modes = true;
