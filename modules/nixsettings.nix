@@ -46,7 +46,10 @@ in {
         # ];
         lazy-trees = true; # Determinate Systems Nix required
       };
-      registry =
+      registry = let
+        # NOTE: determinate already sets this
+        filtered = lib.filterAttrs (name: _value: name != "nixpkgs") inputs;
+      in
         builtins.mapAttrs (name: flake: {
           from = {
             id = name;
@@ -54,7 +57,7 @@ in {
           };
           inherit flake;
         })
-        inputs;
+        filtered;
     };
     nixpkgs.config.allowUnfree = true;
   };
