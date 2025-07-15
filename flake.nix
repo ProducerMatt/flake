@@ -113,7 +113,7 @@
                   f = ./pkg-options.nix;
                 in {
                   _file = f;
-                  config.nixpkgs = import ./pkg-options.nix {inherit system inputs;};
+                  config.nixpkgs = import f {inherit system inputs;};
                 })
                 inputs.home-manager-stable.nixosModules.home-manager
                 inputs.determinate.nixosModules.default
