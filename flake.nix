@@ -87,7 +87,7 @@
       inherit systems;
 
       flake = {
-        inherit flakeInfo; # make available on self
+        inherit flakeInfo myLib; # make available on self
 
         nixosModules = {
           inherit flakeInfoModule;
@@ -103,7 +103,7 @@
           }:
             nixpkgs-stable.lib.nixosSystem {
               specialArgs = {
-                inherit self inputs globals system;
+                inherit self inputs globals system myLib;
                 modules = self.nixosModules;
               };
               modules = [
@@ -130,7 +130,7 @@
                     useGlobalPkgs = true;
                     useUserPackages = true;
                     users.matt = ./hm/matt.nix;
-                    extraSpecialArgs = {inherit self inputs;};
+                    extraSpecialArgs = {inherit self inputs myLib;};
                   };
                 }
               ];

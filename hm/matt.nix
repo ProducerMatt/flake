@@ -1,6 +1,7 @@
 {
   self,
   pkgs,
+  myLib,
   ...
 }: {
   imports = [
@@ -10,6 +11,16 @@
     ./helix.nix
     ./shell-usability.nix
   ];
+
+  home.packages =
+    builtins.concatMap
+    (name: myLib.getSharedPkgList pkgs name)
+    [
+      "base_cli"
+      "dev"
+      "git"
+      "sysadmin"
+    ];
 
   programs.gpg.enable = true;
 

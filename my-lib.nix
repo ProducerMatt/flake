@@ -142,6 +142,12 @@ with lib; let
 
   keepWanted = listOfWanted: A:
     filterAttrs (name: _value: builtins.elem name listOfWanted) A;
+
+  getSharedPkgList = pkgs: path: let
+    lists = rakeLeaves ./pkg-lists;
+    wanted = builtins.getAttr path lists;
+  in
+    wanted pkgs;
 in {
-  inherit rakeLeaves rakeLeavesF makeProfiles flattenTree mkSystem removeUnwanted keepWanted;
+  inherit rakeLeaves rakeLeavesF makeProfiles flattenTree mkSystem removeUnwanted keepWanted getSharedPkgList;
 }
