@@ -47,7 +47,7 @@
     ...
   } @ inputs: let
     inherit (nixpkgs-lib) lib;
-    myLib = import ./my-lib.nix lib;
+    myLib = import ./my-lib.nix {inherit lib;};
     globals = import ./globals.nix;
     flakeInfo = {
       inherit (self) lastModified lastModifiedDate narHash;
