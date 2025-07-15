@@ -66,9 +66,9 @@
           left = ["mode" "spinner" "selections" "register"];
           center = ["file-name" "position" "read-only-indicator" "file-modification-indicator" "version-control"];
           right = ["diagnostics" "file-type" "file-line-ending"];
-          mode.normal = "";
-          mode.insert = "I";
-          mode.select = "S";
+          mode.normal = "󰫻"; # nf-md-alpha_n
+          mode.insert = "󰫶"; # nf-md-alpha_i
+          mode.select = "󱎤"; # nf-md-alpha_s
         };
       };
     };
