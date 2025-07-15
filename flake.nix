@@ -20,8 +20,8 @@
     disko.url = "github:nix-community/disko/latest";
 
     # DeterminateSystems nix branch with extra features
-    nix-detsys.url = "https://flakehub.com/f/DeterminateSystems/nix-src/*";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    nix-detsys.follows = "determinate/nix"; # yes this is possible
 
     impermanence.url = "github:nix-community/impermanence";
 
