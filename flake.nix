@@ -117,7 +117,6 @@
                   config.nixpkgs = import f {inherit system inputs;};
                 })
                 inputs.home-manager-stable.nixosModules.home-manager
-                inputs.determinate.nixosModules.default
                 inputs.disko.nixosModules.disko
                 inputs.sops-nix.nixosModules.sops
                 ./nixos/${hostname}

@@ -22,6 +22,7 @@ in {
     enable = true;
     swapsize = "16G";
   };
+  matt.nix-settings.enable = true;
   matt.extra-substituters.list = [../../substituters.nix];
 
   boot.loader.systemd-boot.enable = true;
