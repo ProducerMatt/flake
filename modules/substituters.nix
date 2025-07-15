@@ -3,14 +3,14 @@
   config,
   ...
 }: let
-  inherit (lib) mkIf;
+  inherit (lib) mkIf mkOption;
   inherit (lib.types) listOf pathInStore;
   first = x: builtins.elemAt x 0;
   second = x: builtins.elemAt x 1;
 
   cfg = config.matt.extra-substituters;
 in {
-  options.matt.extra-substituters.list = {
+  options.matt.extra-substituters.list = mkOption {
     description = "list of Nix files with extra substituters to trust";
     type = listOf pathInStore;
     default = [];
