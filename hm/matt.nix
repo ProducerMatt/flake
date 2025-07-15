@@ -29,7 +29,7 @@
       batman
       prettybat
     ];
-    settings = {
+    config = {
       italic-text = "always";
       map-syntax = [
         "*.ino:C++"
