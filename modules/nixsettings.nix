@@ -17,6 +17,8 @@ in {
     # https://github.com/DeterminateSystems/determinate/pull/88
     environment.etc."nix/nix.conf".target = "nix/nix.custom.conf";
 
+    # NOTE: these are set in ../pkg-options.nix
+    # nixpkgs.config.allowUnfree = true;
     nix = {
       extraOptions = ''
         experimental-features = nix-command flakes ca-derivations recursive-nix
@@ -59,6 +61,5 @@ in {
         })
         filtered;
     };
-    nixpkgs.config.allowUnfree = true;
   };
 }
