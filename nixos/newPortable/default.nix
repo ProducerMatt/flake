@@ -25,6 +25,17 @@ in {
   };
   matt.nix-settings.enable = true;
   matt.extra-substituters.list = [../../substituters.nix];
+  matt.desktop = {
+    enable = true;
+    sound = true;
+    printing = true;
+    autoStart = true;
+    autoLogin = true;
+    remote = {
+      enable = true;
+      type = "rustdesk";
+    };
+  };
 
   boot.loader.systemd-boot.enable = true;
 
