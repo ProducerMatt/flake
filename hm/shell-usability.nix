@@ -3,14 +3,10 @@
   pkgs,
   ...
 }: let
-  start_emacs = "emacsclient -c -a 'emacs'";
-
   myAliases = {
     l = "eza";
     ll = "eza -la";
     la = "eza -a";
-    e = start_emacs;
-    er = "systemctl --user restart emacs.service";
     v = "nvim";
 
     # quick cd
@@ -85,11 +81,6 @@ in {
     enable = true;
     initExtra = builtins.readFile ./bash_prompt.sh;
     shellAliases = myAliases;
-  };
-
-  services.emacs = {
-    enable = true;
-    package = pkgs.emacs-unstable;
   };
 
   programs.pay-respects = {
