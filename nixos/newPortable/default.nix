@@ -33,7 +33,7 @@ in {
     autoLogin = true;
     remote = {
       enable = true;
-      type = "rustdesk";
+      type = "RDP-builtin";
     };
   };
 

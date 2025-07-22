@@ -17,7 +17,12 @@ in {
       enable = mkEnableOption "Enable remote desktop server";
       type = mkOption {
         description = "Which type of remote desktop service to use.";
-        type = with types; uniq (enum ["RDP" "rustdesk"]);
+        type = with types;
+          uniq (enum [
+            "RDP"
+            "RDP-builtin"
+            "rustdesk"
+          ]);
         default = "RDP";
       };
       port = mkOption {
@@ -82,6 +87,11 @@ in {
       (
         mkIf cfg.remote.enable
         (mkMerge [
+          (mkIf (cfg.remote.type == "RDP-builtin")
+            {
+              networking.firewall.allowedTCPPorts = [3389];
+              networking.firewall.allowedUDPPorts = [3389];
+            })
           (mkIf (cfg.remote.type == "RDP")
             {
               services.xrdp = {
