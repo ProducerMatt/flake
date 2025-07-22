@@ -14,7 +14,7 @@ in {
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./nh.nix
-    ./intel-powersaving.nix
+    # ./intel-powersaving.nix
     ../../home-network.nix
     inputs.nix-index-database.nixosModules.nix-index
   ];
