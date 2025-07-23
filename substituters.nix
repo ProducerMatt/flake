@@ -35,4 +35,8 @@
     "https://install.determinate.systems"
     "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
   ]
+  [
+    "https://gleam-nix.cachix.org"
+    "gleam-nix.cachix.org-1:JFm9l4KxdKyBNjQFxo/SF5SVjBTGvib/D877Zwf8C0s="
+  ]
 ]
