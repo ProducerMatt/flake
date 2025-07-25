@@ -109,6 +109,8 @@ in {
                 # rustdesk-flutter is more recent than rustdesk
                 pkgs.rustdesk-flutter
               ];
+              networking.firewall.allowedTCPPorts = [21118];
+              networking.firewall.allowedUDPPorts = [21118];
             })
         ])
       )
