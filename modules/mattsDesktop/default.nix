@@ -106,8 +106,8 @@ in {
           (mkIf (cfg.remote.type == "rustdesk")
             {
               environment.systemPackages = [
-                # rustdesk-flutter is more recent than rustdesk
-                pkgs.rustdesk-flutter
+                # rustdesk-flutter is supposedly more recent than rustdesk
+                pkgs._unstable.rustdesk-flutter
               ];
               networking.firewall.allowedTCPPorts = [21118];
               networking.firewall.allowedUDPPorts = [21118];
