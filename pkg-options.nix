@@ -1,8 +1,7 @@
 {
   system,
   inputs,
-}: {
-  inherit system;
+}: let
   config = {
     allowUnfree = true;
     checkMeta = true;
@@ -10,6 +9,8 @@
     # allow NixOS system config cross compilation
     allowUnsupportedSystem = true;
   };
+in {
+  inherit system config;
   overlays = let
     gimme = title: name: (_final: _prev: {
       ${name} = inputs.${name}.packages.${system}.${title};
@@ -21,6 +22,10 @@
     (gimme "nix" "nix-detsys")
     (gimme "nil" "nil")
     (gimme "nixd" "nixd")
+
     inputs.emacs-overlay.overlays.default
+    (_: _: {
+      _unstable = import inputs.nixpkgs {inherit system config;};
+    })
   ];
 }
