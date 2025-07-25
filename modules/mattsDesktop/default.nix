@@ -105,7 +105,10 @@ in {
             })
           (mkIf (cfg.remote.type == "rustdesk")
             {
-              environment.systemPackages = [pkgs.rustdesk];
+              environment.systemPackages = [
+                # rustdesk-flutter is more recent than rustdesk
+                pkgs.rustdesk-flutter
+              ];
             })
         ])
       )
