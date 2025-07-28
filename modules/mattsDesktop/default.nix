@@ -35,6 +35,11 @@ in {
   config = with lib;
     mkIf cfg.enable (mkMerge [
       {
+        ### DEFAULTS ###
+
+        programs.firefox.enable = true;
+      }
+      {
         # Enable plasma
         services.displayManager.sddm.enable = true;
         services.displayManager.sddm.wayland.enable = true;
