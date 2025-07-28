@@ -7,13 +7,13 @@
 }: let
   cfg = config.matt.misc;
 in {
+  imports = [
+    inputs.nix-index-database.nixosModules.nix-index
+  ];
+
   options.matt.misc.enable = lib.mkEnableOption "misc tweaks that I'd want on all systems";
 
   config = lib.mkIf cfg.enable {
-    imports = [
-      inputs.nix-index-database.nixosModules.nix-index
-    ];
-
     programs.nix-index-database.comma.enable = true;
 
     programs.nh = {
