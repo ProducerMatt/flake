@@ -1,7 +1,7 @@
-{self, ...}: {
+{
   programs.nh = {
     enable = true;
-    flake = self;
+    flake = "/home/matt/src/new_flake";
     clean = {
       enable = true;
       dates = "daily";
