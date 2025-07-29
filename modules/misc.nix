@@ -11,14 +11,20 @@ in {
     inputs.nix-index-database.nixosModules.nix-index
   ];
 
-  options.matt.misc.enable = lib.mkEnableOption "misc tweaks that I'd want on all systems";
+  options.matt.misc = {
+    enable = lib.mkEnableOption "misc tweaks that I'd want on all systems";
+    flake-location = lib.mkOption {
+      type = lib.types.uniq lib.types.path;
+      description = "filesystem path where your system flake is stored. For use in programs.nh.flake";
+    };
+  };
 
   config = lib.mkIf cfg.enable {
     programs.nix-index-database.comma.enable = true;
 
     programs.nh = {
       enable = true;
-      flake = "/home/matt/src/new_flake";
+      flake = cfg.flake-location;
       clean = {
         enable = true;
         dates = "daily";

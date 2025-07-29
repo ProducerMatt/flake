@@ -20,6 +20,7 @@ in {
     swapsize = "16G";
   };
   matt.misc.enable = true;
+  matt.misc.flake-location = "/home/matt/src/new_flake";
   matt.nix-settings.enable = true;
   matt.extra-substituters.list = [../../substituters.nix];
   matt.desktop = {
