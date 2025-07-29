@@ -69,7 +69,6 @@ in {
           vulkan-tools
           libsForQt5.qt5.qttools.bin # qdbus
 
-          firefox
           kitty
         ];
         # Enable touchpad support (enabled default in most desktopManager).
