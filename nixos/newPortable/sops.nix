@@ -1,4 +1,7 @@
-{
+{inputs, ...}: {
+  imports = [
+    inputs.disko.nixosModules.disko
+  ];
   sops = {
     defaultSopsFile = ../../.sops.yaml; # Or the correct path to your .sops.yaml
     age.sshKeyPaths = ["/etc/ssh/ssh_host_ed25519_key"];

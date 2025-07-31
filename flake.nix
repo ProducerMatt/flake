@@ -33,6 +33,9 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
 
+    nixos-wsl.url = "github:ProducerMatt/NixOS-WSL/detsys";
+    nixos-wsl.inputs.determinate.follows = "determinate";
+
     nil.url = "github:oxalica/nil";
     nil.inputs.nixpkgs.follows = "nixpkgs";
     nixd.url = "github:nix-community/nixd";
@@ -95,7 +98,11 @@
           }
           // myLib.rakeLeaves ./modules;
 
-        homeConfigurations.matt = inputs.home-manager-stable.lib.homeManagerConfiguration (import ./hm/matt.nix);
+        # FIXME: defining hostnames in ./hm/default.nix
+        homeConfigurations = lib.mapAttrs (
+          _name: value:
+            inputs.home-manager-stable.lib.homeManagerConfiguration value
+        ) (import ./hm/default.nix);
 
         nixosConfigurations = let
           defaultSystem = {
@@ -116,26 +123,21 @@
                   _file = f;
                   config.nixpkgs = import f {inherit system inputs;};
                 })
-                inputs.home-manager-stable.nixosModules.home-manager
-                inputs.disko.nixosModules.disko
                 inputs.sops-nix.nixosModules.sops
                 ./nixos/${hostname}
-                {
-                  users.users.root.openssh.authorizedKeys.keys = [
-                    globals.publicSSH
-                  ];
-                }
+                inputs.home-manager-stable.nixosModules.home-manager
                 {
                   home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;
-                    users.matt = ./hm/matt.nix;
+                    users.matt = self.homeConfigurations.${hostname};
                     extraSpecialArgs = {inherit self inputs myLib;};
                   };
                 }
               ];
             };
         in
+          # TODO: make this all more sane
           builtins.listToAttrs (map (
               sys @ {hostname, ...}: {
                 name = hostname;
@@ -144,6 +146,10 @@
             ) [
               {
                 hostname = "newPortable";
+                system = "x86_64-linux";
+              }
+              {
+                hostname = "MattsDesktop2025-wsl";
                 system = "x86_64-linux";
               }
             ]);

@@ -49,9 +49,4 @@
       theme = "TwoDark";
     };
   };
-
-  home.username = "matt";
-  home.homeDirectory = "/home/matt";
-  home.stateVersion = "25.05";
-  # TODO: define this by system rather than in hm
 }
