@@ -4,7 +4,14 @@
 #  imports = [ ./disko-config.nix ];
 #  disko.devices.disk.main.device = "/dev/sda";
 # }
-{config, ...}: {
+{
+  inputs,
+  config,
+  ...
+}: {
+  imports = [
+    inputs.disko.nixosModules.disko
+  ];
   disko.devices = {
     disk = {
       ${config.matt.impermanence.btrfsRootName} = {

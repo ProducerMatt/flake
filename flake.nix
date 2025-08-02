@@ -123,7 +123,6 @@
                   _file = f;
                   config.nixpkgs = import f {inherit system inputs;};
                 })
-                inputs.sops-nix.nixosModules.sops
                 ./nixos/${hostname}
                 inputs.home-manager-stable.nixosModules.home-manager
                 {
