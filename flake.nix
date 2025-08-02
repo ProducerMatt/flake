@@ -89,7 +89,9 @@
 
       inherit systems;
 
-      flake = {
+      flake = let
+        hm-hosts = import ./hm/default.nix;
+      in {
         inherit flakeInfo myLib; # make available on self
 
         nixosModules =
@@ -99,10 +101,12 @@
           // myLib.rakeLeaves ./modules;
 
         # FIXME: defining hostnames in ./hm/default.nix
-        homeConfigurations = lib.mapAttrs (
-          _name: value:
-            inputs.home-manager-stable.lib.homeManagerConfiguration value
-        ) (import ./hm/default.nix);
+        homeConfigurations =
+          lib.mapAttrs (
+            _name: value:
+              inputs.home-manager-stable.lib.homeManagerConfiguration value
+          )
+          hm-hosts;
 
         nixosConfigurations = let
           defaultSystem = {
@@ -129,7 +133,7 @@
                   home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;
-                    users.matt = self.homeConfigurations.${hostname};
+                    users.matt = hm-hosts.${hostname};
                     extraSpecialArgs = {inherit self inputs myLib;};
                   };
                 }
