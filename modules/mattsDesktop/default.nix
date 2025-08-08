@@ -13,6 +13,14 @@ in {
     displayLink = mkEnableOption "Enable DisplayLink support";
     autoStart = mkEnableOption "Start the GUI on boot";
     autoLogin = mkEnableOption "Autologin to the Desktop";
+    windowManager = mkOption {
+      description = "Which type of window manager to use.";
+      type = with types;
+        uniq (enum [
+          "plasma6"
+        ]);
+      default = "plasma6";
+    };
     remote = {
       enable = mkEnableOption "Enable remote desktop server";
       type = mkOption {
@@ -38,6 +46,19 @@ in {
         ### DEFAULTS ###
 
         programs.firefox.enable = true;
+
+        ### ASSERTIONS ###
+        assertions = [
+          {
+            assertion =
+              (
+                (cfg.remote.type == "rustdesk")
+                && (cfg.windowManager == "plasma6")
+              )
+              -> (config.services.xserver.enable == true);
+            message = "Rustdesk on Plasma6 needs X11 for unattended access. August 2025";
+          }
+        ];
       }
       {
         # Enable plasma
