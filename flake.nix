@@ -21,7 +21,9 @@
 
     # DeterminateSystems nix branch with extra features
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-    nix-detsys.follows = "determinate/nix"; # yes this is possible
+    nix-detsys.follows = "determinate/nix";
+    # THIS MAKES nix.detsys SOURCE FROM determinate LOCKFILE
+    # yes this is possible :O
 
     impermanence.url = "github:nix-community/impermanence";
 
@@ -37,9 +39,8 @@
     nixos-wsl.inputs.determinate.follows = "determinate";
 
     nil.url = "github:oxalica/nil";
-    nil.inputs.nixpkgs.follows = "nixpkgs";
     nixd.url = "github:nix-community/nixd";
-    nixd.inputs.nixpkgs.follows = "nixpkgs";
+    # NOTE: if I don't nixpkgs.follows then maybe the rebuild demon won't get me (delusional)
   };
 
   outputs = {
