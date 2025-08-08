@@ -5,7 +5,7 @@ with pkgs; [
   niv
   nixpkgs-review
   nixpkgs-hammering
-  nix-init
+  #nix-init # useful but too hefty to be in your env
   nix-diff
   nix-output-monitor
   nix-du
