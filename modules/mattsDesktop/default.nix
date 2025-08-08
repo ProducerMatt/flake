@@ -47,9 +47,6 @@ in {
         services.desktopManager.plasma6.enable = true;
         services.displayManager.defaultSession = "plasmax11";
 
-        # just for fun
-        services.xserver.desktopManager.cde.enable = true;
-
         services.displayManager.autoLogin =
           if cfg.autoLogin
           then {
