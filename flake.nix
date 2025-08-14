@@ -120,15 +120,26 @@
                 modules = self.nixosModules;
               };
               modules = [
-                ({modules, ...}: {imports = builtins.attrValues modules;})
+                # import my own modules
+                ({modules, ...}: {
+                  imports = builtins.attrValues modules;
+                })
+
+                # set system
                 {nixpkgs.hostPlatform = system;}
+
+                # set our nixpkgs
                 (let
                   f = ./pkg-options.nix;
                 in {
                   _file = f;
                   config.nixpkgs = import f {inherit system inputs;};
                 })
+
+                # import this hostname from system config directory
                 ./nixos/${hostname}
+
+                # setup home-manager stuff
                 inputs.home-manager-stable.nixosModules.home-manager
                 {
                   home-manager = {
