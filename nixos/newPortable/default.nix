@@ -34,6 +34,7 @@ in {
       type = "rustdesk";
     };
   };
+  matt.syncthing.enable = true;
 
   boot.loader.systemd-boot.enable = true;
 
