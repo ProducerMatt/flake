@@ -47,6 +47,7 @@ in {
         #   "cache.PherigoNAS.local-1:an8uYbjcJQKUvSdBEe/hlAbbHGDFH+sZZK6PpAQlSn8="
         # ];
         lazy-trees = true; # Determinate Systems Nix required
+        eval-cores = 0;
       };
       registry = let
         # NOTE: determinate already sets this
