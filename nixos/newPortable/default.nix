@@ -89,4 +89,12 @@ in {
   #   };
   # };
   # services.apcupsd.enable = true;
+
+  # tearing and stuttering on Plasma
+  services.xserver = {
+    deviceSection = ''
+      Option "NoFlip" "true"
+    '';
+  };
+  hardware.nvidia.forceFullCompositionPipeline = true;
 }
