@@ -90,23 +90,14 @@ in {
   # };
   # services.apcupsd.enable = true;
 
-  services.udev.extraRules = ''
-    # Disable autosuspend for RME Babyface
-    ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="0424", ATTR{idProduct}=="*", TEST=="power/control", ATTR{power/control}="on"
-  '';
-  # # Create a service that holds the latency constraint open
-  # systemd.services.rme-low-latency = {
-  #   description = "CPU latency constraint for RME Babyface";
-  #   serviceConfig = {
-  #     Type = "simple";
-  #     ExecStart = "${pkgs.bash}/bin/bash -c 'exec 3>/dev/cpu_dma_latency; echo 0 >&3; sleep infinity'";
-  #     Restart = "no";
-  #   };
-  # };
-
-  # # udev rule to start/stop the service
-  # services.udev.extraRules = ''
-  #   ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="2a39", TAG+="systemd", ENV{SYSTEMD_WANTS}="rme-low-latency.service"
-  #   ACTION=="remove", SUBSYSTEM=="usb", ATTR{idVendor}=="2a39", RUN+="${pkgs.systemd}/bin/systemctl stop rme-low-latency.service"
-  # '';
+  services.pipewire.extraConfig = let
+    s = {
+      pulse.min.req = "1024/48000";
+      pulse.min.frag = "1024/48000";
+      pulse.min.quantum = "1024/48000";
+    };
+  in {
+    pipewire = s;
+    pipewire-pulse = s;
+  };
 }
