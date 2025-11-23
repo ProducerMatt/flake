@@ -91,15 +91,19 @@ in {
   # services.apcupsd.enable = true;
 
   services.pipewire.extraConfig = {
+    pipewire = {
+      "0-force-buffer" = {
+        "context.properties" = {
+          "default.clock.min-quantum" = "1024";
+        };
+      };
+    };
     pipewire-pulse = {
       "0-force-buffer" = {
         "pulse.properties" = {
           "pulse.min.req" = "1024/48000";
           "pulse.min.frag" = "1024/48000";
           "pulse.min.quantum" = "1024/48000";
-        };
-        "context.properties" = {
-          "default.clock.min-quantum" = 16;
         };
       };
     };
