@@ -3,7 +3,7 @@
   lib,
   pkgs,
   ...
-}: let
+} @ ctx: let
   cfg = config.matt.desktop;
 in {
   options.matt.desktop = with lib; {
@@ -63,6 +63,7 @@ in {
           }
         ];
       }
+      (import ./plasma_xdg_fix.nix ctx)
       {
         # Enable plasma
         services.xserver.enable = true;
