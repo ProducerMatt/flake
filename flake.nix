@@ -178,6 +178,9 @@
       }: {
         # This sets `pkgs` to a nixpkgs with allowUnfree option set.
         _module.args.pkgs = defaultPkgs system;
+
+        packages = import pkgs/default.nix pkgs;
+
         pre-commit = {
           settings = {
             default_stages = ["manual" "pre-push" "pre-merge-commit" "pre-commit"];

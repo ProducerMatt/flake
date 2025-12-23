@@ -1,0 +1,14 @@
+diff --git a/test_sshdo b/test_sshdo
+index 9a62ff7..fcadd5d 100755
+--- a/test_sshdo
++++ b/test_sshdo
+@@ -990,7 +990,8 @@ def test_options():
+ 
+ 	for test_options, expected_output, expected_error in test_data:
+ 		num_tests += 1
+-		os.system("./sshdo %s > %s 2> %s" % (test_options, test_output_fname, test_error_fname))
++		print("PEBIS " + os.getcwd())
++		os.system("sshdo %s > %s 2> %s" % (test_options, test_output_fname, test_error_fname))
+ 		result_output = readfile(test_output_fname)
+ 		result_error = readfile(test_error_fname)
+ 		os.unlink(test_output_fname)

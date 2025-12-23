@@ -16,6 +16,7 @@ in {
       ${name} = inputs.${name}.packages.${system}.${title};
     });
   in [
+    (final: prev: (import pkgs/default.nix) final)
     #(gimme "default" "nixpkgs-hammering")
     #(gimme "nix-btm" "nix-btm")
     inputs.nix-detsys.overlays.default
