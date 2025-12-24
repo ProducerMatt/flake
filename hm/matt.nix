@@ -4,13 +4,17 @@
   myLib,
   ...
 }: {
-  imports = [
-    ./core.nix
-    ./nix-index.nix
-    ./git-settings.nix
-    ./helix.nix
-    ./shell-usability.nix
-  ];
+  imports =
+    [
+      ./core.nix
+      ./nix-index.nix
+      ./git-settings.nix
+      ./helix.nix
+      ./shell-usability.nix
+    ]
+    ++ (builtins.attrValues self.homeModules);
+
+  matt.backuppc.enable = true;
 
   home.packages =
     builtins.concatMap
