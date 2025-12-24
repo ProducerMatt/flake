@@ -87,14 +87,6 @@
       imports =
         [
           inputs.git-hooks-nix.flakeModule
-          flake-parts.flakeModules.modules
-          {
-            flake.modules.nixos =
-              {
-                flakeInfoModule = flakeInfoModule;
-              }
-              // myLib.rakeLeaves ./modules;
-          }
         ]
         ++ (builtins.attrValues (myLib.rakeLeaves ./dendritic));
 
@@ -104,6 +96,12 @@
         hm-hosts = import ./hm/default.nix;
       in {
         inherit flakeInfo myLib; # make available on self
+
+        nixosModules =
+          {
+            inherit flakeInfoModule;
+          }
+          // myLib.rakeLeaves ./modules;
 
         # FIXME: defining hostnames in ./hm/default.nix
         homeConfigurations =
