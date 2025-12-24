@@ -84,11 +84,9 @@
     }: {
       debug = true; # DEBUG
 
-      imports =
-        [
-          inputs.git-hooks-nix.flakeModule
-        ]
-        ++ (builtins.attrValues (myLib.rakeLeaves ./dendritic));
+      imports = [
+        inputs.git-hooks-nix.flakeModule
+      ];
 
       inherit systems;
 
