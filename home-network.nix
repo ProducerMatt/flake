@@ -12,6 +12,15 @@
     };
   };
   fileSystems = {
+    "/media/FamilyNAS" = {
+      device = "PherigoNAS.local:/mnt/PherigoRAID/Family";
+      fsType = "nfs";
+      options = [
+        "nfsvers=4"
+        "noatime"
+        "noexec"
+      ];
+    };
     "/media/PublicNAS" = {
       device = "PherigoNAS.local:/mnt/PherigoRAID/Public";
       fsType = "nfs";
