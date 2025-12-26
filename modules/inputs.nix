@@ -6,7 +6,7 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    nixpkgs-lib.url = "github:nix-community/nixpkgs.lib";
+    # nixpkgs-lib.url = "github:nix-community/nixpkgs.lib"; # already required by den
 
     nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*";
     nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
