@@ -42,10 +42,7 @@
       url = "github:ProducerMatt/NixOS-WSL/detsys";
     };
     nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*";
-    nixpkgs-lib = {
-      follows = "nixpkgs";
-      url = "github:nix-community/nixpkgs.lib";
-    };
+    nixpkgs-lib.follows = "nixpkgs";
     nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
     sops-nix.url = "github:Mic92/sops-nix";
     systems.url = "github:nix-systems/x86_64-linux";
