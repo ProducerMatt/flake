@@ -1,10 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-let
+{den, ...}: let
   publicSSH = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfK6c9SiwYYRxy10EMVh1sctDgy6JN/fMyzsO1hACnN Matt's private login key";
 in {
   den.aspects.newPortable = {
+    includes = [
+      den.aspects.matt
+    ];
     nixos = {pkgs, ...}: {
       imports = [
         # Include the results of the hardware scan.
