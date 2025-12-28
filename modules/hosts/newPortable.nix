@@ -1,106 +1,110 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-{globals}: {
-  flake.nixosConfigurations.newPortable = {pkgs, ...}: {
-    imports = [
-      # Include the results of the hardware scan.
-      ./_newPortable/hardware-configuration.nix
-      # ./intel-powersaving.nix
-    ];
+let
+  publicSSH = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfK6c9SiwYYRxy10EMVh1sctDgy6JN/fMyzsO1hACnN Matt's private login key";
+in {
+  den.hosts.newPortable = {
+    nixos = {pkgs, ...}: {
+      imports = [
+        # Include the results of the hardware scan.
+        ./_newPortable/hardware-configuration.nix
+        # ./intel-powersaving.nix
+      ];
 
-    matt.home-network.enable = true;
+      matt.home-network.enable = true;
 
-    matt.impermanence = {
-      enable = true;
-      swapsize = "16G";
-    };
-    matt.misc.enable = true;
-    matt.misc.flake-location = "/home/matt/src/new_flake";
-    matt.nix-settings.enable = true;
-    matt.extra-substituters.list = [../../substituters.nix];
-    matt.desktop = {
-      enable = true;
-      sound = true;
-      printing = true;
-      autoStart = true;
-      autoLogin = true;
-      remote = {
+      matt.impermanence = {
         enable = true;
-        type = "rustdesk";
+        swapsize = "16G";
       };
-    };
-    matt.syncthing.enable = true;
-    matt.backuppc.enable = true;
-
-    boot.loader.systemd-boot.enable = true;
-
-    networking = {
-      hostName = "newPortable";
-      useDHCP = false;
-      interfaces = {
-        "enp112s0" = {
-          useDHCP = false;
-          ipv4.addresses = [
-            {
-              address = "192.168.1.5";
-              prefixLength = 16;
-            }
-          ];
+      matt.misc.enable = true;
+      matt.misc.flake-location = "/home/matt/src/new_flake";
+      matt.nix-settings.enable = true;
+      matt.extra-substituters.list = [../../substituters.nix];
+      matt.desktop = {
+        enable = true;
+        sound = true;
+        printing = true;
+        autoStart = true;
+        autoLogin = true;
+        remote = {
+          enable = true;
+          type = "rustdesk";
         };
       };
-    };
+      matt.syncthing.enable = true;
+      matt.backuppc.enable = true;
 
-    # Enable touchpad support (enabled default in most desktopManager).
-    services.libinput.enable = true;
+      boot.loader.systemd-boot.enable = true;
 
-    # Define a user account. Don't forget to set a password with ‘passwd’.
-    users.users.matt = {
-      isNormalUser = true;
-      extraGroups = ["networkmanager" "wheel" "vboxusers"];
-      initialHashedPassword = "$6$cXUmEOPi4lj1p.U8$hhR4ZLi6Nj/jTGBvFhNmWI4fozrtWcgh3tkZ8b93Hb5mMIU9fgTDT0mtdHFQhPNol9HSylwnO69th.Fm4BKYj/";
-      shell = pkgs.fish;
-      openssh.authorizedKeys.keys = [
-        globals.publicSSH
-        ''
-          from="192.168.1.3",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM0MTVh6Bi82YLKJlpo+4fQRQ3mhZWXFD7VcZEPPWHWA backup@BackupPC
-        ''
-        #''
-        #  from="192.168.1.3",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty,command="rrsync -ro /home/matt" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM0MTVh6Bi82YLKJlpo+4fQRQ3mhZWXFD7VcZEPPWHWA backup@BackupPC
-        #''
-      ];
-    };
-
-    nixpkgs.config.allowUnfree = true;
-
-    # Open ports in the firewall.
-    # networking.firewall.allowedTCPPorts = [ ... ];
-    # networking.firewall.allowedUDPPorts = [ ... ];
-    # Or disable the firewall altogether.
-    # networking.firewall.enable = false;
-
-    # power.ups = {
-    #   enable = true;
-    #   ups."APCBackUPS1500" = {
-    #     driver = "apcupsd";
-    #   };
-    # };
-    # services.apcupsd.enable = true;
-
-    services.pipewire.extraConfig = {
-      pipewire = {
-        "0-force-buffer" = {
-          "context.properties" = {
-            "default.clock.min-quantum" = "1024";
+      networking = {
+        hostName = "newPortable";
+        useDHCP = false;
+        interfaces = {
+          "enp112s0" = {
+            useDHCP = false;
+            ipv4.addresses = [
+              {
+                address = "192.168.1.5";
+                prefixLength = 16;
+              }
+            ];
           };
         };
       };
-      pipewire-pulse = {
-        "0-force-buffer" = {
-          "pulse.properties" = {
-            "pulse.min.req" = "1024/48000";
-            "pulse.min.frag" = "1024/48000";
-            "pulse.min.quantum" = "1024/48000";
+
+      # Enable touchpad support (enabled default in most desktopManager).
+      services.libinput.enable = true;
+
+      # Define a user account. Don't forget to set a password with ‘passwd’.
+      users.users.matt = {
+        isNormalUser = true;
+        extraGroups = ["networkmanager" "wheel" "vboxusers"];
+        initialHashedPassword = "$6$cXUmEOPi4lj1p.U8$hhR4ZLi6Nj/jTGBvFhNmWI4fozrtWcgh3tkZ8b93Hb5mMIU9fgTDT0mtdHFQhPNol9HSylwnO69th.Fm4BKYj/";
+        shell = pkgs.fish;
+        openssh.authorizedKeys.keys = [
+          publicSSH
+          ''
+            from="192.168.1.3",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM0MTVh6Bi82YLKJlpo+4fQRQ3mhZWXFD7VcZEPPWHWA backup@BackupPC
+          ''
+          #''
+          #  from="192.168.1.3",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty,command="rrsync -ro /home/matt" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM0MTVh6Bi82YLKJlpo+4fQRQ3mhZWXFD7VcZEPPWHWA backup@BackupPC
+          #''
+        ];
+      };
+
+      nixpkgs.config.allowUnfree = true;
+
+      # Open ports in the firewall.
+      # networking.firewall.allowedTCPPorts = [ ... ];
+      # networking.firewall.allowedUDPPorts = [ ... ];
+      # Or disable the firewall altogether.
+      # networking.firewall.enable = false;
+
+      # power.ups = {
+      #   enable = true;
+      #   ups."APCBackUPS1500" = {
+      #     driver = "apcupsd";
+      #   };
+      # };
+      # services.apcupsd.enable = true;
+
+      services.pipewire.extraConfig = {
+        pipewire = {
+          "0-force-buffer" = {
+            "context.properties" = {
+              "default.clock.min-quantum" = "1024";
+            };
+          };
+        };
+        pipewire-pulse = {
+          "0-force-buffer" = {
+            "pulse.properties" = {
+              "pulse.min.req" = "1024/48000";
+              "pulse.min.frag" = "1024/48000";
+              "pulse.min.quantum" = "1024/48000";
+            };
           };
         };
       };
