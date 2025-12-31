@@ -1,7 +1,7 @@
 {
   inputs,
   lib,
-  pkgs,
+  den,
   ...
 }: {
   flake-file = {
@@ -14,4 +14,8 @@
     (inputs.flake-file.flakeModules.dendritic or {})
     (inputs.den.flakeModules.dendritic or {})
   ];
+
+  # this line enables den angle brackets syntax in modules.
+  # in pure eval, __findFile must be imported in the flake module args to take effect
+  _module.args.__findFile = den.lib.__findFile;
 }
