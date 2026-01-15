@@ -1,7 +1,6 @@
-{lib, ...} @ args:
-builtins.trace (builtins.attrNames args) (let
+{lib, ...}: let
   mods = (import ../my-lib.nix lib).rakeLeaves ../nixos-modules;
 in {
-  flake.modules.nixosModules = mods;
+  flake.modules.nixos = mods;
   den.default.nixos.imports = builtins.attrValues mods;
-})
+}

@@ -13,6 +13,7 @@
   imports = [
     (inputs.flake-file.flakeModules.dendritic or {})
     (inputs.den.flakeModules.dendritic or {})
+    (inputs.flake-parts.flakeModules.modules or {})
   ];
 
   # this line enables den angle brackets syntax in modules.
