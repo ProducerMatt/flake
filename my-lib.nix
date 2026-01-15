@@ -1,4 +1,4 @@
-{lib, ...}:
+lib:
 with builtins;
 with lib; let
   recursiveMap = f:
@@ -149,12 +149,5 @@ with lib; let
   in
     wanted pkgs;
 in {
-  config.myLib = {
-    inherit rakeLeaves rakeLeavesF makeProfiles flattenTree mkSystem recursiveMap removeUnwanted keepWanted getSharedPkgList;
-  };
-  options.myLib = lib.mkOption {
-    internal = true;
-    visible = false;
-    type = lib.types.attrs;
-  };
+  inherit rakeLeaves rakeLeavesF makeProfiles flattenTree mkSystem recursiveMap removeUnwanted keepWanted getSharedPkgList;
 }
