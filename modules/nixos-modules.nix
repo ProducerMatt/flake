@@ -1,6 +1,8 @@
-{lib, ...}: let
-  mods = (import ../my-lib.nix lib).rakeLeaves ../nixos-modules;
+{inputs, ...}: let
+  inherit (inputs.nixpkgs-stable) lib;
+  mods = (import ../my-lib.nix lib).rakeLeavesF (p: p) ../nixos-modules;
 in {
-  flake.modules.nixos = mods;
-  den.default.nixos.imports = builtins.attrValues mods;
+  flake.modules.nixos = builtins.mapAttrs (_: p: import p) mods;
+  den.default.nixos.imports =
+    builtins.attrValues mods;
 }
