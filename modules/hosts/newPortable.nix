@@ -5,6 +5,10 @@
   den.aspects.newPortable = {
     includes = [
       den.aspects.matt
+      den.aspects.backuppc
+      den.aspects.syncthing
+      den.aspects.misc
+      den.aspects.mattsDesktop
     ];
     homeManager.home.stateVersion = "25.05";
     nixos = {
