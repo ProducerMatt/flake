@@ -14,9 +14,11 @@
 
   # included so we can test HM integrations.
   flake-file.inputs.home-manager = {
-    url = "github:nix-community/home-manager";
+    url = "https://flakehub.com/f/nix-community/home-manager/0.2505";
     inputs.nixpkgs.follows = "nixpkgs";
   };
+
+  flake-file.inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
 
   # included for testing darwin hosts.
   flake-file.inputs.darwin = {

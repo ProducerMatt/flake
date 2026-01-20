@@ -18,7 +18,7 @@
     };
     home-manager = {
       inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:nix-community/home-manager";
+      url = "https://flakehub.com/f/nix-community/home-manager/0.2505";
     };
     import-tree.url = "github:vic/import-tree";
     nix-unit = {
@@ -28,7 +28,7 @@
       };
       url = "github:nix-community/nix-unit";
     };
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
     nixpkgs-lib.follows = "nixpkgs";
     systems.url = "github:nix-systems/default";
   };
