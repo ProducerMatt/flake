@@ -1,5 +1,5 @@
 {
-  den.aspects.nixos-module.nixos = {config, lib, ...}: let
+  den.default.nixos = {config, lib, ...}: let
     cfg = config.nixos-module;
     in {
       options.nixos-module = {

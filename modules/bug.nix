@@ -1,13 +1,10 @@
-{ den, inputs, lib, ... }:
+{ inputs, ... }:
 {
   den.hosts.x86_64-linux.igloo.users.tux = { };
   den.hosts.aarch64-darwin.apple.users.tim = { };
 
   # Use aspects to create a **minimal** bug reproduction
   den.aspects.igloo = {
-    includes = [
-      den.aspects.nixos-module
-    ];
     nixos = {
       nixos-module.enable = true;
     };
