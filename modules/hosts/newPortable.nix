@@ -10,6 +10,7 @@
       den.aspects.misc
       den.aspects.mattsDesktop
       den.aspects.home-network
+      den.aspects.impermanence
     ];
     homeManager.home.stateVersion = "25.05";
     nixos = {
@@ -18,8 +19,6 @@
         ./_newPortable/hardware-configuration.nix
         # ./intel-powersaving.nix
       ];
-
-      matt.home-network.enable = true;
 
       matt.impermanence = {
         enable = true;

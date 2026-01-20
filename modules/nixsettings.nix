@@ -1,5 +1,6 @@
 {inputs, ...}: {
-  den.default.nixos = {
+  den.default = {
+    nixos = {
     lib,
     config,
     ...
@@ -64,4 +65,4 @@
       };
     };
   };
-}
+};}
