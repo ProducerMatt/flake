@@ -1,5 +1,12 @@
-{den, inputs, ...}: {
-  den.aspects.impermanence = {OS, host}: {
+{
+  den,
+  inputs,
+  ...
+}: {
+  den.aspects.impermanence = {
+    OS,
+    host,
+  }: {
     nixos = {
       lib,
       config,
