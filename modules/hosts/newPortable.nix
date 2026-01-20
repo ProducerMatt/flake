@@ -9,6 +9,7 @@
       den.aspects.syncthing
       den.aspects.misc
       den.aspects.mattsDesktop
+      den.aspects.home-network
     ];
     homeManager.home.stateVersion = "25.05";
     nixos = {
