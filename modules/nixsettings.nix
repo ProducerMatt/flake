@@ -1,5 +1,5 @@
-{inputs, ...}: {
-  den.default = {
+{den, inputs, ...}: {
+  den.default.includes = [(den.lib.take.exactly ({OS, host}: {
     nixos = {
       lib,
       config,
@@ -65,5 +65,5 @@
         };
       };
     };
-  };
+  }))];
 }
