@@ -4,9 +4,6 @@
   ...
 }: {
   den.aspects.impermanence = {
-    OS,
-    host,
-  }: {
     nixos = {
       lib,
       config,

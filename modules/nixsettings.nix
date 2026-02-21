@@ -5,7 +5,6 @@
 }: {
   den.default.includes = [
     (den.lib.take.exactly ({
-      OS,
       host,
     }: {
       nixos = {

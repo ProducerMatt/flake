@@ -1,8 +1,5 @@
 {den, ...}: {
   den.aspects.mattsDesktop = {
-    OS,
-    host,
-  }: {
     nixos = {
       config,
       lib,
