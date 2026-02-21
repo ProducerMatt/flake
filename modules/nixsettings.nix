@@ -4,9 +4,7 @@
   ...
 }: {
   den.default.includes = [
-    (den.lib.take.exactly ({
-      host,
-    }: {
+    (den.lib.take.exactly ({host}: {
       nixos = {
         lib,
         config,
