@@ -14,7 +14,7 @@
       "sysadmin"
     ];
 in {
-  den.aspects.matt = {
+  den.aspects.matt = den.lib.parametric {
     includes = [
       <den/primary-user> # matt is admin always.
       (<den/user-shell> "fish") # default user shell
