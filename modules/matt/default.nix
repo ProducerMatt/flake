@@ -16,6 +16,7 @@
 in {
   den.aspects.matt = den.lib.parametric {
     includes = [
+      <den/bidirectional>
       <den/primary-user> # matt is admin always.
       (<den/user-shell> "fish") # default user shell
       den.aspects.home-manager
