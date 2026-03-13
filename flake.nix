@@ -24,6 +24,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       url = "https://flakehub.com/f/cachix/git-hooks.nix/*";
     };
+    home-manager.follows = "home-manager-stable";
     home-manager-stable = {
       inputs.nixpkgs.follows = "nixpkgs-stable";
       url = "https://flakehub.com/f/nix-community/home-manager/0.2505";

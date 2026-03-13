@@ -12,6 +12,7 @@
     nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
     home-manager-stable.url = "https://flakehub.com/f/nix-community/home-manager/0.2505";
     home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
+    home-manager.follows = "home-manager-stable";
 
     git-hooks-nix.url = "https://flakehub.com/f/cachix/git-hooks.nix/*";
     git-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
