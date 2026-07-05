@@ -19,7 +19,7 @@ in {
     (final: prev: (import pkgs/default.nix) final)
     #(gimme "default" "nixpkgs-hammering")
     #(gimme "nix-btm" "nix-btm")
-    inputs.nix-detsys.overlays.default
+    #inputs.nix-detsys.overlays.default
     (gimme "nix" "nix-detsys")
     (gimme "nil" "nil")
     (gimme "nixd" "nixd")
