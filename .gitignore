@@ -73,11 +73,10 @@ tags
 # Persistent undo
 [._]*.un~
 
-# NOTE: Nix result file. Can this be bound to the root of the directory?
-result
+/result
 
 .direnv
 
-/Old/secrets
+/Old/Old/secrets
 
 /.pre-commit-config.yaml
