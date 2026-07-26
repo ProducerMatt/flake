@@ -10,7 +10,7 @@
 
     nixpkgs-lib.url = "github:nix-community/nixpkgs.lib";
 
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2605";
     nixpkgs-unstable.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*";
     home-manager.url = "https://flakehub.com/f/nix-community/home-manager/0.2505";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
