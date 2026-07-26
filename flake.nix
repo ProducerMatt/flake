@@ -10,16 +10,16 @@
 
     nixpkgs-lib.url = "github:nix-community/nixpkgs.lib";
 
-    nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*";
-    nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
-    home-manager-stable.url = "https://flakehub.com/f/nix-community/home-manager/0.2505";
-    home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
+    nixpkgs-unstable.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*";
+    home-manager.url = "https://flakehub.com/f/nix-community/home-manager/0.2505";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     git-hooks-nix.url = "https://flakehub.com/f/cachix/git-hooks.nix/*";
-    git-hooks-nix.inputs.nixpkgs.follows = "nixpkgs";
+    git-hooks-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     nix-index-database.url = "github:nix-community/nix-index-database";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     disko.url = "github:nix-community/disko/latest";
 
@@ -32,8 +32,8 @@
     impermanence.url = "github:nix-community/impermanence";
 
     emacs-overlay.url = "github:nix-community/emacs-overlay";
-    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    emacs-overlay.inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    emacs-overlay.inputs.nixpkgs-stable.follows = "nixpkgs";
 
     templates.url = "github:ProducerMatt/nix-templates";
 
