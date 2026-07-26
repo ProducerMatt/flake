@@ -4,6 +4,10 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    den.url = "github:denful/den";
+    flake-file.url = "github:vic/flake-file";
+    import-tree.url = "github:vic/import-tree";
+
     nixpkgs-lib.url = "github:nix-community/nixpkgs.lib";
 
     nixpkgs.url = "https://flakehub.com/f/DeterminateSystems/nixpkgs-weekly/*";
