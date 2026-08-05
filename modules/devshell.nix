@@ -13,7 +13,7 @@
             stages = ["manual"];
           };
         in {
-          alejandra.enable = true;
+          nixfmt.enable = true;
           check-added-large-files.enable = true;
           check-json.enable = true;
           check-merge-conflicts.enable = true;
