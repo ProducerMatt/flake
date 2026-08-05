@@ -8,7 +8,7 @@
         # allow NixOS system config cross compilation
         allowUnsupportedSystem = true;
       };
-    in inputs.nixpkgs {
+    in import inputs.nixpkgs {
       inherit system config;
       overlays = let
         gimme = title: name: (_final: _prev: {
