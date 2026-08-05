@@ -5,6 +5,7 @@
     pre-commit = {
       check.enable = true;
       settings = {
+        package = pkgs.prek; # faster pre-commit w/ less dependencies
         src = ./../.;
         default_stages = ["manual" "pre-push" "pre-merge-commit" "pre-commit"];
         hooks = let
