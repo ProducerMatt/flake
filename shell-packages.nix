@@ -3,12 +3,13 @@
   inputs,
   system,
 }:
-with pkgs; [
+with pkgs;
+[
   nix-detsys
   nixfmt
   git
   lazygit
-  (inputs.disko.packages.${system}.default.override {nix = nix-detsys;})
+  (inputs.disko.packages.${system}.default.override { nix = nix-detsys; })
   sops
   age
   nil
