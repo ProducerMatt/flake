@@ -7,6 +7,7 @@
       settings = {
         package = pkgs.prek; # faster pre-commit w/ less dependencies
         src = ./../.;
+        excludes = [ "^Old/" ];
         default_stages = ["manual" "pre-push" "pre-merge-commit" "pre-commit"];
         hooks = let
           manual_only = {
