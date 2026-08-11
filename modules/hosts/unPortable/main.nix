@@ -7,7 +7,7 @@
 {
   den.aspects.unPortable = {
     nixos = { pkgs, ... }: {
-      modules = [
+      imports = [
         ./_hardware-configuration.nix
         inputs.disko.nixosModules.disko
       ];
