@@ -22,6 +22,7 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     disko.url = "github:nix-community/disko/latest";
+    disko.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # DeterminateSystems nix branch with extra features
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
